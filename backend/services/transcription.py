@@ -18,7 +18,7 @@ class TranscriptionService:
     def __init__(self):
         # Get credentials file path from environment or use default
         default_credentials_dir = os.path.dirname(os.path.dirname(__file__))
-        credentials_filename = os.environ.get('GOOGLE_CREDENTIALS_FILENAME', 'refreshing-code-459622-u1-96c3014b9ded.json')
+        credentials_filename = os.environ.get('GOOGLE_CREDENTIALS_FILENAME', 'google.json')
         credentials_file = os.path.join(default_credentials_dir, credentials_filename)
         
         if os.path.exists(credentials_file):

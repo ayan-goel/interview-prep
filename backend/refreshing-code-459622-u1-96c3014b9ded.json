@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "refreshing-code-459622-u1",
+  "private_key_id": "96c3014b9ded2ee024ad80768ce8b12939cae280",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC1M0WgMN7yN+cq\n4jJ9zFzLQmH+62YTE710E3S4jnM7ibwGTrakl51VaLV3iKk5yNnPqUpewihCHeEL\nJ2CQcA8DuQ9U0/UsqSKvg3OtRvJMW+itDis7VsOBXCuvo2Nxq00UBuS7Jg8ucoLQ\n6o2m4E9ShDO/lFsb6ek++WfkQBWt1Z5kJnSWr61R4IKB1347dp+Q5wXQmGidJ1FL\n1XfIMx+f1OhCrgzeYz991deOYtssjtojs5PwCva5ozjwFyJ7cIIgPtzjzocxh2k3\noDw3tHUTbQTKNQ/WxkT6S3QzEx7UxetPcOZryKSNycpH5qKRKV8fntJxzbrbT7aj\nriicLZYrAgMBAAECggEAAqAC9j6TRVZRH/x8Lvk7+9imHag11qfpya8Smy3+/sUM\nWXMtNbqeCMooUC/FfBtSfliQmxY6H0eeqrRmTRjYXT1Xy+Isec+GZkfueJT/1sBb\nC/Eq+RmqUM9YU1deQTV6u52kN4aIU3AZ2g9LTOuQYhZY8oGaATri2TE0pt3EAZG0\n7kaQuBRiWO8ALZr32b7AUYxNTQmiscG+/clVBllYDs+cmpkLXGRIZ1Zb1lwvPpv1\nQq/4f7mgQ1CpAFTqs13wk7mvPYMuWDp6ep1daReqbOxSX9y3sdE9V52ZCmoTC3rx\nSHD1ml93vIFUa1x9Xjc9piq8eVRJnNcW1r6LJREX9QKBgQDlcdzWTk1zkRlIbT3C\n/IkxXc6voAClwXbhwhHIY/KRpsuGE9Pq8iSvyVR6Uh3vlPHv+T2zBrSKH5uw6prN\ns3I58Wc6kSB9bJ1HDBtNypxWD8SaoslrABtL24qlvpV09JdGTWiIxXKDKfxBcL7/\njiFNnUxUxudc7PX34Ztqu/50TQKBgQDKK/2L/Uoj07PdK/lteHwmGXlo7X93qwuT\nwBJKHzmkHzdTQrqme8ADnZQcUgE9onzM6EG8JLjsyKk1cYzgxVcIpgWrgmPx94ca\njNhyxjb/mtjgq/KwQvrU8DHG8mpFFu4vU2o4482Tdif46XXnXNp29iJb7XlZ83I3\nNCtYI8xQVwKBgQC+u/io7k7UUzqBSs6c2PHzZ9f5hzkCkeERqxK9UtjC27U0sCbq\nmICG4Qao6LqZ/2df5gG0YU6Tw9LZLy2g8htyr4rw1NP9b90OwrGv6U4s/M6i/dAS\ncvQ+CzMmtVfo8asPdioACKM5Bh39CIy+RJjKvIhHsVGDnjia56EbCUxtwQKBgG4S\n2W84rv8mqo1G/fzuVpnf0MyiUn5zMFB3iP22VonXPSYl9L3kLr1JNHTe6TIHn+9o\nnTG0xMKW1hn1AwD2MNbSnc+tpID/hh2chdSnuxYb1u0scWwqa6s4Q8HQBrArNe+q\nePEUhr8827KYWctoMMIIbNikSSgCdjM8QkUw6HLtAoGBAKi/BGAcVVMKDp/NLs22\n4aGrdg2tTXe/3LjteZYr51pf4jVxRsys1UKrdlyHgd9lo8ZLxsqWN+DQY4WWwK/K\nY7GAlEuZ8P5+rOafN9sSZT2Av3S8juaHGZM6WGAWjm8jvoLXMdddI4ujs8VePwwb\nsTwy3bZh76zwVM0vmCqDsTdL\n-----END PRIVATE KEY-----\n",
+  "client_email": "speech-to-text@refreshing-code-459622-u1.iam.gserviceaccount.com",
+  "client_id": "117176305385258347181",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/speech-to-text%40refreshing-code-459622-u1.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

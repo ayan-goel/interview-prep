@@ -1,0 +1,839 @@
+2025-05-17 19:03:45,071 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:05:33,386 - api.routes - INFO - Received analysis request
+2025-05-17 19:05:33,426 - utils.file_helper - INFO - File saved to uploads/20250517_190533_cec1b15e.webm
+2025-05-17 19:05:33,426 - api.routes - INFO - Transcribing audio from 20250517_190533_cec1b15e.webm
+2025-05-17 19:05:33,426 - services.transcription - INFO - Extracting audio from uploads/20250517_190533_cec1b15e.webm
+2025-05-17 19:05:41,692 - services.transcription - INFO - Audio extracted to /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmpouehi6s1.wav
+2025-05-17 19:05:41,693 - services.transcription - INFO - Sending request to Google Cloud Speech-to-Text
+2025-05-17 19:05:42,322 - services.transcription - ERROR - Error in transcription: 401 Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/transcription.py", line 62, in transcribe
+    response = self.client.recognize(config=config, audio=audio)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/speech_v1p1beta1/services/speech/client.py", line 577, in recognize
+    response = rpc(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/gapic_v1/method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/retry/retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/retry/retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/retry/retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/retry/retry_unary.py", line 147, in retry_target
+    result = target()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/grpc_helpers.py", line 78, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.Unauthenticated: 401 Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+2025-05-17 19:10:05,965 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:10:51,453 - api.routes - INFO - Received analysis request
+2025-05-17 19:10:51,499 - utils.file_helper - INFO - File saved to uploads/20250517_191051_1ab746c9.webm
+2025-05-17 19:10:51,499 - api.routes - INFO - Transcribing audio from 20250517_191051_1ab746c9.webm
+2025-05-17 19:10:51,499 - services.transcription - INFO - Extracting audio from uploads/20250517_191051_1ab746c9.webm
+2025-05-17 19:10:52,468 - services.transcription - INFO - Audio extracted to /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmpi_0qt80w.wav
+2025-05-17 19:10:52,470 - services.transcription - INFO - Sending request to Google Cloud Speech-to-Text
+2025-05-17 19:10:52,811 - services.transcription - ERROR - Error in transcription: 401 Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/transcription.py", line 62, in transcribe
+    response = self.client.recognize(config=config, audio=audio)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/speech_v1p1beta1/services/speech/client.py", line 577, in recognize
+    response = rpc(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/gapic_v1/method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/retry/retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/retry/retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/retry/retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/retry/retry_unary.py", line 147, in retry_target
+    result = target()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/grpc_helpers.py", line 78, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.Unauthenticated: 401 Request had invalid authentication credentials. Expected OAuth 2 access token, login cookie or other valid authentication credential. See https://developers.google.com/identity/sign-in/web/devconsole-project.
+2025-05-17 19:15:00,646 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:16:06,336 - api.routes - INFO - Received analysis request
+2025-05-17 19:16:06,415 - utils.file_helper - INFO - File saved to uploads/20250517_191606_508cbc9a.webm
+2025-05-17 19:16:06,415 - api.routes - INFO - Transcribing audio from 20250517_191606_508cbc9a.webm
+2025-05-17 19:16:06,415 - services.transcription - INFO - Extracting audio from uploads/20250517_191606_508cbc9a.webm
+2025-05-17 19:16:10,367 - services.transcription - INFO - Audio extracted to /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmpnsuzh956.wav
+2025-05-17 19:16:10,370 - services.transcription - INFO - Sending request to Google Cloud Speech-to-Text
+2025-05-17 19:16:11,529 - services.transcription - ERROR - Error in transcription: 400 Sync input too long. For audio longer than 1 min use LongRunningRecognize with a 'uri' parameter.
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/transcription.py", line 62, in transcribe
+    response = self.client.recognize(config=config, audio=audio)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/speech_v1p1beta1/services/speech/client.py", line 577, in recognize
+    response = rpc(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/gapic_v1/method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/retry/retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/retry/retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/retry/retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/retry/retry_unary.py", line 147, in retry_target
+    result = target()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/api_core/grpc_helpers.py", line 78, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.InvalidArgument: 400 Sync input too long. For audio longer than 1 min use LongRunningRecognize with a 'uri' parameter.
+2025-05-17 19:23:02,655 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:24:15,319 - api.routes - INFO - Received analysis request
+2025-05-17 19:24:15,576 - utils.file_helper - INFO - File saved to uploads/20250517_192415_8603d986.webm
+2025-05-17 19:24:15,577 - api.routes - INFO - Transcribing audio from 20250517_192415_8603d986.webm
+2025-05-17 19:24:15,577 - services.transcription - INFO - Extracting audio from uploads/20250517_192415_8603d986.webm
+2025-05-17 19:24:16,378 - services.transcription - INFO - Audio extracted to /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmpdfun29av.wav
+2025-05-17 19:24:16,380 - services.transcription - INFO - Audio duration: 39.36 seconds
+2025-05-17 19:24:16,380 - services.transcription - INFO - Audio shorter than 60 seconds, using synchronous recognize
+2025-05-17 19:24:16,380 - services.transcription - INFO - Sending request to Google Cloud Speech-to-Text
+2025-05-17 19:24:23,587 - api.routes - INFO - Analyzing interview content
+2025-05-17 19:24:23,965 - services.content_analysis - ERROR - Error using NIM API: HTTPSConnectionPool(host='api.nimapi.com', port=443): Max retries exceeded with url: /v1/engines/nimarvard/mixtral-8x7b/generate (Caused by SSLError(SSLCertVerificationError(1, "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'api.nimapi.com'. (_ssl.c:1133)")))
+Traceback (most recent call last):
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/urllib3/connection.py", line 741, in connect
+    sock_and_verified = _ssl_wrap_socket_and_match_hostname(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/urllib3/connection.py", line 920, in _ssl_wrap_socket_and_match_hostname
+    ssl_sock = ssl_wrap_socket(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/urllib3/util/ssl_.py", line 480, in ssl_wrap_socket
+    ssl_sock = _ssl_wrap_socket_impl(sock, context, tls_in_tls, server_hostname)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/urllib3/util/ssl_.py", line 524, in _ssl_wrap_socket_impl
+    return ssl_context.wrap_socket(sock, server_hostname=server_hostname)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/ssl.py", line 501, in wrap_socket
+    return self.sslsocket_class._create(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/ssl.py", line 1074, in _create
+    self.do_handshake()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/ssl.py", line 1343, in do_handshake
+    self._sslobj.do_handshake()
+ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'api.nimapi.com'. (_ssl.c:1133)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+urllib3.exceptions.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'api.nimapi.com'. (_ssl.c:1133)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/requests/adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.nimapi.com', port=443): Max retries exceeded with url: /v1/engines/nimarvard/mixtral-8x7b/generate (Caused by SSLError(SSLCertVerificationError(1, "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'api.nimapi.com'. (_ssl.c:1133)")))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/content_analysis.py", line 57, in _analyze_with_nim
+    response = requests.post(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/requests/api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/requests/adapters.py", line 517, in send
+    raise SSLError(e, request=request)
+requests.exceptions.SSLError: HTTPSConnectionPool(host='api.nimapi.com', port=443): Max retries exceeded with url: /v1/engines/nimarvard/mixtral-8x7b/generate (Caused by SSLError(SSLCertVerificationError(1, "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'api.nimapi.com'. (_ssl.c:1133)")))
+2025-05-17 19:24:24,014 - api.routes - INFO - Analyzing body language
+2025-05-17 19:24:24,052 - services.body_language_analysis - ERROR - Error extracting frames: Number of samples, -9223372036854775808, must be non-negative.
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/body_language_analysis.py", line 120, in _extract_frames
+    frames_to_extract = np.linspace(0, frame_count-1, max_frames, dtype=int)
+  File "<__array_function__ internals>", line 180, in linspace
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/numpy/core/function_base.py", line 122, in linspace
+    raise ValueError("Number of samples, %s, must be non-negative." % num)
+ValueError: Number of samples, -9223372036854775808, must be non-negative.
+2025-05-17 19:24:24,059 - services.body_language_analysis - ERROR - Failed to extract frames from video
+2025-05-17 19:24:24,059 - api.routes - ERROR - Error processing request: 'vocabulary_diversity'
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/api/routes.py", line 88, in analyze_interview
+    "vocabulary_diversity": content_analysis['speech_metrics']['vocabulary_diversity'],
+KeyError: 'vocabulary_diversity'
+2025-05-17 19:25:49,041 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:26:04,216 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:26:17,447 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:26:32,723 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:27:08,363 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:28:07,217 - api.routes - INFO - Received analysis request
+2025-05-17 19:28:07,604 - utils.file_helper - INFO - File saved to uploads/20250517_192807_9ba1136c.webm
+2025-05-17 19:28:07,604 - api.routes - INFO - Transcribing audio from 20250517_192807_9ba1136c.webm
+2025-05-17 19:28:07,604 - services.transcription - INFO - Extracting audio from uploads/20250517_192807_9ba1136c.webm
+2025-05-17 19:28:07,912 - services.transcription - INFO - Audio extracted to /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmph4kyjy6v.wav
+2025-05-17 19:28:07,913 - services.transcription - INFO - Audio duration: 79.74 seconds
+2025-05-17 19:28:07,913 - services.transcription - INFO - Audio longer than 60 seconds, using long_running_recognize with GCS
+2025-05-17 19:28:08,717 - services.transcription - ERROR - Error uploading to GCS: 403 POST https://storage.googleapis.com/upload/storage/v1/b/interview-pro/o?uploadType=multipart: {
+  "error": {
+    "code": 403,
+    "message": "speech-to-text@refreshing-code-459622-u1.iam.gserviceaccount.com does not have storage.objects.create access to the Google Cloud Storage object. Permission 'storage.objects.create' denied on resource (or it may not exist).",
+    "errors": [
+      {
+        "message": "speech-to-text@refreshing-code-459622-u1.iam.gserviceaccount.com does not have storage.objects.create access to the Google Cloud Storage object. Permission 'storage.objects.create' denied on resource (or it may not exist).",
+        "domain": "global",
+        "reason": "forbidden"
+      }
+    ]
+  }
+}
+: ('Request failed with status code', 403, 'Expected one of', <HTTPStatus.OK: 200>)
+Traceback (most recent call last):
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 2604, in _prep_and_do_upload
+    created_json = self._do_upload(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 2410, in _do_upload
+    response = self._do_multipart_upload(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 1923, in _do_multipart_upload
+    response = upload.transmit(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/resumable_media/requests/upload.py", line 153, in transmit
+    return _request_helpers.wait_and_retry(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/resumable_media/requests/_request_helpers.py", line 155, in wait_and_retry
+    response = func()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/resumable_media/requests/upload.py", line 149, in retriable_request
+    self._process_response(result)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/resumable_media/_upload.py", line 125, in _process_response
+    _helpers.require_status_code(response, (http.client.OK,), self._get_status_code)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/resumable_media/_helpers.py", line 108, in require_status_code
+    raise common.InvalidResponse(
+google.resumable_media.common.InvalidResponse: ('Request failed with status code', 403, 'Expected one of', <HTTPStatus.OK: 200>)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/transcription.py", line 114, in _upload_to_gcs
+    blob.upload_from_filename(local_file_path)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 2926, in upload_from_filename
+    self._handle_filename_and_upload(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 2796, in _handle_filename_and_upload
+    self._prep_and_do_upload(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 2622, in _prep_and_do_upload
+    _raise_from_invalid_response(exc)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 4778, in _raise_from_invalid_response
+    raise exceptions.from_http_status(response.status_code, message, response=response)
+google.api_core.exceptions.Forbidden: 403 POST https://storage.googleapis.com/upload/storage/v1/b/interview-pro/o?uploadType=multipart: {
+  "error": {
+    "code": 403,
+    "message": "speech-to-text@refreshing-code-459622-u1.iam.gserviceaccount.com does not have storage.objects.create access to the Google Cloud Storage object. Permission 'storage.objects.create' denied on resource (or it may not exist).",
+    "errors": [
+      {
+        "message": "speech-to-text@refreshing-code-459622-u1.iam.gserviceaccount.com does not have storage.objects.create access to the Google Cloud Storage object. Permission 'storage.objects.create' denied on resource (or it may not exist).",
+        "domain": "global",
+        "reason": "forbidden"
+      }
+    ]
+  }
+}
+: ('Request failed with status code', 403, 'Expected one of', <HTTPStatus.OK: 200>)
+2025-05-17 19:28:08,762 - services.transcription - ERROR - Error in transcription: 403 POST https://storage.googleapis.com/upload/storage/v1/b/interview-pro/o?uploadType=multipart: {
+  "error": {
+    "code": 403,
+    "message": "speech-to-text@refreshing-code-459622-u1.iam.gserviceaccount.com does not have storage.objects.create access to the Google Cloud Storage object. Permission 'storage.objects.create' denied on resource (or it may not exist).",
+    "errors": [
+      {
+        "message": "speech-to-text@refreshing-code-459622-u1.iam.gserviceaccount.com does not have storage.objects.create access to the Google Cloud Storage object. Permission 'storage.objects.create' denied on resource (or it may not exist).",
+        "domain": "global",
+        "reason": "forbidden"
+      }
+    ]
+  }
+}
+: ('Request failed with status code', 403, 'Expected one of', <HTTPStatus.OK: 200>)
+Traceback (most recent call last):
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 2604, in _prep_and_do_upload
+    created_json = self._do_upload(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 2410, in _do_upload
+    response = self._do_multipart_upload(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 1923, in _do_multipart_upload
+    response = upload.transmit(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/resumable_media/requests/upload.py", line 153, in transmit
+    return _request_helpers.wait_and_retry(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/resumable_media/requests/_request_helpers.py", line 155, in wait_and_retry
+    response = func()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/resumable_media/requests/upload.py", line 149, in retriable_request
+    self._process_response(result)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/resumable_media/_upload.py", line 125, in _process_response
+    _helpers.require_status_code(response, (http.client.OK,), self._get_status_code)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/resumable_media/_helpers.py", line 108, in require_status_code
+    raise common.InvalidResponse(
+google.resumable_media.common.InvalidResponse: ('Request failed with status code', 403, 'Expected one of', <HTTPStatus.OK: 200>)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/transcription.py", line 71, in transcribe
+    gcs_uri = self._upload_to_gcs(audio_path)
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/transcription.py", line 114, in _upload_to_gcs
+    blob.upload_from_filename(local_file_path)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 2926, in upload_from_filename
+    self._handle_filename_and_upload(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 2796, in _handle_filename_and_upload
+    self._prep_and_do_upload(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 2622, in _prep_and_do_upload
+    _raise_from_invalid_response(exc)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/google/cloud/storage/blob.py", line 4778, in _raise_from_invalid_response
+    raise exceptions.from_http_status(response.status_code, message, response=response)
+google.api_core.exceptions.Forbidden: 403 POST https://storage.googleapis.com/upload/storage/v1/b/interview-pro/o?uploadType=multipart: {
+  "error": {
+    "code": 403,
+    "message": "speech-to-text@refreshing-code-459622-u1.iam.gserviceaccount.com does not have storage.objects.create access to the Google Cloud Storage object. Permission 'storage.objects.create' denied on resource (or it may not exist).",
+    "errors": [
+      {
+        "message": "speech-to-text@refreshing-code-459622-u1.iam.gserviceaccount.com does not have storage.objects.create access to the Google Cloud Storage object. Permission 'storage.objects.create' denied on resource (or it may not exist).",
+        "domain": "global",
+        "reason": "forbidden"
+      }
+    ]
+  }
+}
+: ('Request failed with status code', 403, 'Expected one of', <HTTPStatus.OK: 200>)
+2025-05-17 19:30:20,789 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:33:06,783 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:34:09,804 - api.routes - INFO - Received analysis request
+2025-05-17 19:34:09,889 - api.routes - ERROR - Error processing request: [Errno 28] No space left on device
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/api/routes.py", line 29, in analyze_interview
+    if 'video' not in request.files:
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/werkzeug/utils.py", line 107, in __get__
+    value = self.fget(obj)  # type: ignore
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/werkzeug/wrappers/request.py", line 497, in files
+    self._load_form_data()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/flask/wrappers.py", line 114, in _load_form_data
+    super()._load_form_data()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/werkzeug/wrappers/request.py", line 271, in _load_form_data
+    data = parser.parse(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/werkzeug/formparser.py", line 242, in parse
+    return parse_func(stream, mimetype, content_length, options)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/werkzeug/formparser.py", line 267, in _parse_multipart
+    form, files = parser.parse(stream, boundary, content_length)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/werkzeug/formparser.py", line 391, in parse
+    _write(event.data)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/tempfile.py", line 775, in write
+    rv = file.write(s)
+OSError: [Errno 28] No space left on device
+2025-05-17 19:35:56,648 - api.routes - INFO - Received analysis request
+2025-05-17 19:35:56,726 - utils.file_helper - INFO - File saved to uploads/20250517_193556_e70fee56.webm
+2025-05-17 19:35:56,727 - api.routes - INFO - Transcribing audio from 20250517_193556_e70fee56.webm
+2025-05-17 19:35:56,727 - services.transcription - INFO - Extracting audio from uploads/20250517_193556_e70fee56.webm
+2025-05-17 19:35:57,592 - services.transcription - INFO - Audio extracted to /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmpscizu2qb.wav
+2025-05-17 19:35:57,594 - services.transcription - INFO - Audio duration: 98.22 seconds
+2025-05-17 19:35:57,594 - services.transcription - INFO - Audio longer than 60 seconds, using long_running_recognize with GCS
+2025-05-17 19:35:58,497 - services.transcription - INFO - File /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmpscizu2qb.wav uploaded to gs://interview-pro/audio/d32686f3-b4d6-4794-9041-7a4fc22170c7.wav
+2025-05-17 19:35:58,498 - services.transcription - INFO - Audio uploaded to GCS: gs://interview-pro/audio/d32686f3-b4d6-4794-9041-7a4fc22170c7.wav
+2025-05-17 19:35:59,212 - services.transcription - INFO - Long running transcription started, waiting for results...
+2025-05-17 19:36:20,648 - services.transcription - INFO - Deleted file from GCS: gs://interview-pro/audio/d32686f3-b4d6-4794-9041-7a4fc22170c7.wav
+2025-05-17 19:36:20,653 - api.routes - INFO - Analyzing interview content
+2025-05-17 19:36:20,654 - services.content_analysis - WARNING - SSL verification disabled for NIM API requests - this should only be used in development
+2025-05-17 19:36:21,536 - services.content_analysis - ERROR - Error using NIM API: 404 Client Error: Not Found for url: https://api.nimapi.com/v1/engines/nimarvard/mixtral-8x7b/generate
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/content_analysis.py", line 82, in _analyze_with_nim
+    response.raise_for_status()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: Not Found for url: https://api.nimapi.com/v1/engines/nimarvard/mixtral-8x7b/generate
+2025-05-17 19:36:21,555 - api.routes - INFO - Analyzing body language
+2025-05-17 19:36:21,555 - services.body_language_analysis - INFO - Extracting frames from uploads/20250517_193556_e70fee56.webm
+2025-05-17 19:36:21,593 - services.body_language_analysis - WARNING - Invalid frame count detected: -215212014193278080. Using manual extraction.
+2025-05-17 19:36:21,645 - services.body_language_analysis - INFO - Manually extracted 30 frames from video
+2025-05-17 19:36:22,441 - services.body_language_analysis - ERROR - Error analyzing posture: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+Traceback (most recent call last):
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/function_spec.py", line 425, in bind_function_inputs
+    bound_arguments = self.function_type.bind_with_defaults(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/core/function/polymorphism/function_type.py", line 223, in bind_with_defaults
+    bound_arguments = self.bind(*args, **kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/inspect.py", line 3045, in bind
+    return self._bind(args, kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/inspect.py", line 2971, in _bind
+    raise TypeError(
+TypeError: too many positional arguments
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/monomorphic_function.py", line 1486, in _call_impl
+    return self._call_with_structured_signature(args, kwargs,
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/monomorphic_function.py", line 1568, in _call_with_structured_signature
+    self._function_spec.canonicalize_function_inputs(args, kwargs))
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/function_spec.py", line 407, in canonicalize_function_inputs
+    args, kwargs = self.bind_function_inputs(args, kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/function_spec.py", line 428, in bind_function_inputs
+    raise TypeError(
+TypeError: Binding inputs to tf.function `signature_wrapper` failed due to `too many positional arguments`.Received args: (<tf.Tensor: shape=(1, 192, 192, 3), dtype=float32, numpy=
+array([[[[0., 0., 0.],
+         [0., 0., 0.],
+         [0., 0., 0.],
+         ...,
+         [0., 0., 0.],
+         [0., 0., 0.],
+         [0., 0., 0.]],
+
+        [[0., 0., 0.],
+         [0., 0., 0.],
+         [0., 0., 0.],
+         ...,
+         [0., 0., 0.],
+         [0., 0., 0.],
+         [0., 0., 0.]],
+
+        [[0., 0., 0.],
+         [0., 0., 0.],
+         [0., 0., 0.],
+         ...,
+         [0., 0., 0.],
+         [0., 0., 0.],
+         [0., 0., 0.]],
+
+        ...,
+
+        [[0., 0., 0.],
+         [0., 0., 0.],
+         [0., 0., 0.],
+         ...,
+         [0., 0., 0.],
+         [0., 0., 0.],
+         [0., 0., 0.]],
+
+        [[0., 0., 0.],
+         [0., 0., 0.],
+         [0., 0., 0.],
+         ...,
+         [0., 0., 0.],
+         [0., 0., 0.],
+         [0., 0., 0.]],
+
+        [[0., 0., 0.],
+         [0., 0., 0.],
+         [0., 0., 0.],
+         ...,
+         [0., 0., 0.],
+         [0., 0., 0.],
+         [0., 0., 0.]]]], dtype=float32)>,) and kwargs: {} for signature: (*, input=<object object at 0x168b8d8a0>).
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/body_language_analysis.py", line 178, in _analyze_posture
+    result = self.movenet(img)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/monomorphic_function.py", line 1477, in __call__
+    return self._call_impl(args, kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/monomorphic_function.py", line 1490, in _call_impl
+    return self._call_with_flat_signature(args, kwargs,
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/monomorphic_function.py", line 1549, in _call_with_flat_signature
+    return self._call_flat(args, self.captured_inputs, cancellation_manager)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/saved_model/load.py", line 141, in _call_flat
+    return super(_WrapperFunction, self)._call_flat(args, captured_inputs,
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/monomorphic_function.py", line 1757, in _call_flat
+    return self._build_call_outputs(self._inference_function.call(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/monomorphic_function.py", line 381, in call
+    outputs = execute.execute(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/execute.py", line 52, in quick_execute
+    tensors = pywrap_tfe.TFE_Py_Execute(ctx._handle, device_name, op_name,
+tensorflow.python.framework.errors_impl.InvalidArgumentError: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:36:22,477 - services.body_language_analysis - ERROR - Error analyzing eye contact: Cannot set tensor: Got value of type UINT8 but expected type FLOAT32 for input 0, name: input 
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/body_language_analysis.py", line 258, in _analyze_eye_contact
+    self.face_detector.set_tensor(input_details[0]['index'], input_tensor)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/lite/python/interpreter.py", line 696, in set_tensor
+    self._interpreter.SetTensor(tensor_index, value)
+ValueError: Cannot set tensor: Got value of type UINT8 but expected type FLOAT32 for input 0, name: input 
+2025-05-17 19:36:23,246 - services.body_language_analysis - INFO - Body language analysis completed successfully
+2025-05-17 19:36:23,248 - api.routes - INFO - Analysis completed with ID: analysis-98
+2025-05-17 19:40:25,895 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:40:48,977 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:41:18,571 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:48:09,422 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:49:20,356 - api.routes - INFO - Received analysis request
+2025-05-17 19:49:20,418 - utils.file_helper - INFO - File saved to uploads/20250517_194920_8480db1e.webm
+2025-05-17 19:49:20,419 - api.routes - INFO - Transcribing audio from 20250517_194920_8480db1e.webm
+2025-05-17 19:49:20,419 - services.transcription - INFO - Extracting audio from uploads/20250517_194920_8480db1e.webm
+2025-05-17 19:49:21,893 - services.transcription - INFO - Audio extracted to /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmp811iqntr.wav
+2025-05-17 19:49:21,894 - services.transcription - INFO - Audio duration: 62.22 seconds
+2025-05-17 19:49:21,895 - services.transcription - INFO - Audio longer than 60 seconds, using long_running_recognize with GCS
+2025-05-17 19:49:22,876 - services.transcription - INFO - File /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmp811iqntr.wav uploaded to gs://interview-pro/audio/f217c42e-9dd1-46d9-8796-33c44a0035a1.wav
+2025-05-17 19:49:22,877 - services.transcription - INFO - Audio uploaded to GCS: gs://interview-pro/audio/f217c42e-9dd1-46d9-8796-33c44a0035a1.wav
+2025-05-17 19:49:23,685 - services.transcription - INFO - Long running transcription started, waiting for results...
+2025-05-17 19:49:42,533 - services.transcription - INFO - Deleted file from GCS: gs://interview-pro/audio/f217c42e-9dd1-46d9-8796-33c44a0035a1.wav
+2025-05-17 19:49:42,537 - services.transcription - INFO - Cleaned up temporary audio file: /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmp811iqntr.wav
+2025-05-17 19:49:42,537 - api.routes - INFO - Analyzing interview content
+2025-05-17 19:49:42,537 - services.content_analysis - WARNING - SSL verification disabled for NIM API requests - this should only be used in development
+2025-05-17 19:49:43,232 - services.content_analysis - ERROR - Error using LLM API: 404 Client Error: Not Found for url: https://api.nimapi.com/v1/engines/mixtral-8x7b/generate
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/content_analysis.py", line 75, in _analyze_with_llm
+    response.raise_for_status()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: Not Found for url: https://api.nimapi.com/v1/engines/mixtral-8x7b/generate
+2025-05-17 19:49:43,235 - api.routes - INFO - Analyzing body language
+2025-05-17 19:49:43,235 - services.body_language_analysis - INFO - Extracting frames from uploads/20250517_194920_8480db1e.webm
+2025-05-17 19:49:43,263 - services.body_language_analysis - WARNING - Invalid frame count detected: -9223372036854775808. Using manual extraction.
+2025-05-17 19:49:43,310 - services.body_language_analysis - INFO - Manually extracted 30 frames from video
+2025-05-17 19:49:43,727 - services.body_language_analysis - ERROR - Error analyzing posture: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/body_language_analysis.py", line 183, in _analyze_posture
+    result = self.movenet(**input_dict)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/monomorphic_function.py", line 1477, in __call__
+    return self._call_impl(args, kwargs)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/monomorphic_function.py", line 1486, in _call_impl
+    return self._call_with_structured_signature(args, kwargs,
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/monomorphic_function.py", line 1572, in _call_with_structured_signature
+    return self._call_flat(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/saved_model/load.py", line 141, in _call_flat
+    return super(_WrapperFunction, self)._call_flat(args, captured_inputs,
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/monomorphic_function.py", line 1757, in _call_flat
+    return self._build_call_outputs(self._inference_function.call(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/polymorphic_function/monomorphic_function.py", line 381, in call
+    outputs = execute.execute(
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/python/eager/execute.py", line 52, in quick_execute
+    tensors = pywrap_tfe.TFE_Py_Execute(ctx._handle, device_name, op_name,
+tensorflow.python.framework.errors_impl.InvalidArgumentError: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:49:43,795 - services.body_language_analysis - ERROR - Error analyzing eye contact: Cannot set tensor: Dimension mismatch. Got 320 but expected 128 for dimension 1 of input 0.
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/body_language_analysis.py", line 267, in _analyze_eye_contact
+    self.face_detector.set_tensor(input_details[0]['index'], input_tensor)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/tensorflow/lite/python/interpreter.py", line 696, in set_tensor
+    self._interpreter.SetTensor(tensor_index, value)
+ValueError: Cannot set tensor: Dimension mismatch. Got 320 but expected 128 for dimension 1 of input 0.
+2025-05-17 19:49:44,588 - services.body_language_analysis - INFO - Body language analysis completed successfully
+2025-05-17 19:49:44,589 - api.routes - INFO - Analysis completed with ID: analysis-62
+2025-05-17 19:49:44,590 - utils.file_helper - INFO - Removed file: uploads/20250517_194920_8480db1e.webm
+2025-05-17 19:52:06,722 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:52:32,103 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:52:55,323 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:53:09,308 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:53:52,792 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:55:25,268 - api.routes - INFO - Received analysis request
+2025-05-17 19:55:25,310 - utils.file_helper - INFO - File saved to uploads/20250517_195525_a24ceac3.webm
+2025-05-17 19:55:25,310 - api.routes - INFO - Transcribing audio from 20250517_195525_a24ceac3.webm
+2025-05-17 19:55:25,311 - services.transcription - INFO - Extracting audio from uploads/20250517_195525_a24ceac3.webm
+2025-05-17 19:55:25,946 - services.transcription - INFO - Audio extracted to /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmpkdtj0uxt.wav
+2025-05-17 19:55:25,948 - services.transcription - INFO - Audio duration: 95.64 seconds
+2025-05-17 19:55:25,948 - services.transcription - INFO - Audio longer than 60 seconds, using long_running_recognize with GCS
+2025-05-17 19:55:26,698 - services.transcription - INFO - File /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmpkdtj0uxt.wav uploaded to gs://interview-pro/audio/0efa56d7-3aec-44eb-be89-96d37bf90deb.wav
+2025-05-17 19:55:26,698 - services.transcription - INFO - Audio uploaded to GCS: gs://interview-pro/audio/0efa56d7-3aec-44eb-be89-96d37bf90deb.wav
+2025-05-17 19:55:27,362 - services.transcription - INFO - Long running transcription started, waiting for results...
+2025-05-17 19:56:16,464 - services.transcription - INFO - Deleted file from GCS: gs://interview-pro/audio/0efa56d7-3aec-44eb-be89-96d37bf90deb.wav
+2025-05-17 19:56:16,470 - services.transcription - INFO - Cleaned up temporary audio file: /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmpkdtj0uxt.wav
+2025-05-17 19:56:16,470 - api.routes - INFO - Analyzing interview content
+2025-05-17 19:56:16,470 - services.content_analysis - WARNING - SSL verification disabled for NIM API requests - this should only be used in development
+2025-05-17 19:56:17,047 - services.content_analysis - ERROR - Error using LLM API: 404 Client Error: Not Found for url: https://api.nimapi.com/v1/engines/llama-2-70b/generate
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/content_analysis.py", line 75, in _analyze_with_llm
+    response.raise_for_status()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: Not Found for url: https://api.nimapi.com/v1/engines/llama-2-70b/generate
+2025-05-17 19:56:17,060 - api.routes - INFO - Analyzing body language
+2025-05-17 19:56:17,060 - services.body_language_analysis - INFO - Extracting frames from uploads/20250517_195525_a24ceac3.webm
+2025-05-17 19:56:17,093 - services.body_language_analysis - WARNING - Invalid frame count detected: -9223372036854775808. Using manual extraction.
+2025-05-17 19:56:17,140 - services.body_language_analysis - INFO - Manually extracted 30 frames from video
+2025-05-17 19:56:17,502 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,515 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,528 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,541 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,553 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,564 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,578 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,590 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,603 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,615 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,628 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,640 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,653 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,665 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,678 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,689 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,701 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,716 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,727 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,739 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,750 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,761 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,772 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,784 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,795 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,807 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,819 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,831 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,843 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,854 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 19:56:17,857 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,859 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,860 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,861 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,862 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,864 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,865 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,866 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,868 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,869 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,871 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,873 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,875 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,876 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,877 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,878 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,880 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,881 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,882 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,883 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,885 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,886 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,887 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,888 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,890 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,891 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,892 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,893 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,895 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:17,896 - services.body_language_analysis - WARNING - Error analyzing face in frame: list index out of range
+2025-05-17 19:56:18,693 - services.body_language_analysis - INFO - Body language analysis completed successfully
+2025-05-17 19:56:18,695 - api.routes - INFO - Analysis completed with ID: analysis-95
+2025-05-17 19:56:18,696 - utils.file_helper - INFO - Removed file: uploads/20250517_195525_a24ceac3.webm
+2025-05-17 19:58:43,904 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:59:10,350 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:59:23,549 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 19:59:43,645 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:02:26,307 - api.routes - INFO - Received analysis request
+2025-05-17 20:02:26,338 - utils.file_helper - INFO - File saved to uploads/20250517_200226_a3c2b1c6.webm
+2025-05-17 20:02:26,338 - api.routes - INFO - Transcribing audio from 20250517_200226_a3c2b1c6.webm
+2025-05-17 20:02:26,338 - services.transcription - INFO - Extracting audio from uploads/20250517_200226_a3c2b1c6.webm
+2025-05-17 20:02:26,853 - services.transcription - INFO - Audio extracted to /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmp1gi1ph7z.wav
+2025-05-17 20:02:26,855 - services.transcription - INFO - Audio duration: 61.98 seconds
+2025-05-17 20:02:26,855 - services.transcription - INFO - Audio longer than 60 seconds, using long_running_recognize with GCS
+2025-05-17 20:02:27,687 - services.transcription - INFO - File /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmp1gi1ph7z.wav uploaded to gs://interview-pro/audio/9764c7f4-60eb-4599-a9a2-8d730db88644.wav
+2025-05-17 20:02:27,687 - services.transcription - INFO - Audio uploaded to GCS: gs://interview-pro/audio/9764c7f4-60eb-4599-a9a2-8d730db88644.wav
+2025-05-17 20:02:28,394 - services.transcription - INFO - Long running transcription started, waiting for results...
+2025-05-17 20:03:11,565 - services.transcription - INFO - Deleted file from GCS: gs://interview-pro/audio/9764c7f4-60eb-4599-a9a2-8d730db88644.wav
+2025-05-17 20:03:11,567 - services.transcription - INFO - Cleaned up temporary audio file: /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmp1gi1ph7z.wav
+2025-05-17 20:03:11,567 - api.routes - INFO - Analyzing interview content
+2025-05-17 20:03:11,567 - services.content_analysis - WARNING - SSL verification disabled for NIM API requests - this should only be used in development
+2025-05-17 20:03:12,177 - services.content_analysis - ERROR - Error using LLM API: 404 Client Error: Not Found for url: https://api.nimapi.com/v1/engines/meta/llama-4-maverick-17b-128e-instruct/generate
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/content_analysis.py", line 75, in _analyze_with_llm
+    response.raise_for_status()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: Not Found for url: https://api.nimapi.com/v1/engines/meta/llama-4-maverick-17b-128e-instruct/generate
+2025-05-17 20:03:12,179 - api.routes - INFO - Analyzing body language
+2025-05-17 20:03:12,179 - services.body_language_analysis - INFO - Extracting frames from uploads/20250517_200226_a3c2b1c6.webm
+2025-05-17 20:03:12,188 - services.body_language_analysis - WARNING - Invalid frame count detected: -9223372036854775808. Using manual extraction.
+2025-05-17 20:03:12,227 - services.body_language_analysis - INFO - Manually extracted 30 frames from video
+2025-05-17 20:03:12,496 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,505 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,512 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,519 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,525 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,532 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,538 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,545 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,551 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,557 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,563 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,570 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,576 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,582 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,589 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,595 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,602 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,608 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,615 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,621 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,627 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,633 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,639 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,645 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,651 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,657 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,664 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,670 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,676 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:12,682 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:03:13,503 - services.body_language_analysis - INFO - Body language analysis completed successfully
+2025-05-17 20:03:13,504 - api.routes - INFO - Analysis completed with ID: analysis-61
+2025-05-17 20:03:13,505 - utils.file_helper - INFO - Removed file: uploads/20250517_200226_a3c2b1c6.webm
+2025-05-17 20:04:48,057 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:05:01,775 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:05:18,677 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:05:43,089 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:06:59,966 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:07:37,983 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:11:37,435 - api.routes - INFO - Received analysis request
+2025-05-17 20:11:37,472 - utils.file_helper - INFO - File saved to uploads/20250517_201137_88be78b2.webm
+2025-05-17 20:11:37,472 - api.routes - INFO - Transcribing audio from 20250517_201137_88be78b2.webm
+2025-05-17 20:11:37,472 - services.transcription - INFO - Extracting audio from uploads/20250517_201137_88be78b2.webm
+2025-05-17 20:11:38,058 - services.transcription - INFO - Audio extracted to /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmppcwg51je.wav
+2025-05-17 20:11:38,060 - services.transcription - INFO - Audio duration: 77.76 seconds
+2025-05-17 20:11:38,061 - services.transcription - INFO - Audio longer than 60 seconds, using long_running_recognize with GCS
+2025-05-17 20:11:38,897 - services.transcription - INFO - File /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmppcwg51je.wav uploaded to gs://interview-pro/audio/ca768213-676c-4c12-a029-cc49f7d5779a.wav
+2025-05-17 20:11:38,897 - services.transcription - INFO - Audio uploaded to GCS: gs://interview-pro/audio/ca768213-676c-4c12-a029-cc49f7d5779a.wav
+2025-05-17 20:11:39,539 - services.transcription - INFO - Long running transcription started, waiting for results...
+2025-05-17 20:12:14,732 - services.transcription - INFO - Deleted file from GCS: gs://interview-pro/audio/ca768213-676c-4c12-a029-cc49f7d5779a.wav
+2025-05-17 20:12:14,734 - services.transcription - INFO - Cleaned up temporary audio file: /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmppcwg51je.wav
+2025-05-17 20:12:14,734 - api.routes - INFO - Analyzing interview content
+2025-05-17 20:12:14,734 - services.content_analysis - WARNING - SSL verification disabled for NIM API requests - this should only be used in development
+2025-05-17 20:12:17,289 - services.content_analysis - ERROR - Error parsing LLM response: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/content_analysis.py", line 93, in _analyze_with_llm
+    result = json.loads(content)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2025-05-17 20:12:17,299 - services.content_analysis - WARNING - Returning unparsed response as fallback
+2025-05-17 20:12:17,300 - api.routes - INFO - Analyzing body language
+2025-05-17 20:12:17,300 - services.body_language_analysis - INFO - Extracting frames from uploads/20250517_201137_88be78b2.webm
+2025-05-17 20:12:17,325 - services.body_language_analysis - WARNING - Invalid frame count detected: -9223372036854775808. Using manual extraction.
+2025-05-17 20:12:17,368 - services.body_language_analysis - INFO - Manually extracted 30 frames from video
+2025-05-17 20:12:17,646 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,653 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,660 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,666 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,672 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,678 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,684 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,690 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,696 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,701 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,707 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,713 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,718 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,724 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,730 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,735 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,741 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,747 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,752 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,758 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,764 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,770 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,775 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,781 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,787 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,793 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,799 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,804 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,810 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:17,816 - services.body_language_analysis - WARNING - Error analyzing frame: cannot compute __inference_signature_wrapper_39225 as input #0(zero-based) was expected to be a int32 tensor but is a float tensor [Op:__inference_signature_wrapper_39225]
+2025-05-17 20:12:18,648 - services.body_language_analysis - INFO - Body language analysis completed successfully
+2025-05-17 20:12:18,649 - api.routes - ERROR - Error processing request: 'scores'
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/api/routes.py", line 75, in analyze_interview
+    "content": content_analysis['scores']['content'],
+KeyError: 'scores'
+2025-05-17 20:12:18,653 - utils.file_helper - INFO - Removed file: uploads/20250517_201137_88be78b2.webm
+2025-05-17 20:13:57,912 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:15:58,051 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:16:15,938 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:16:46,671 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:17:16,020 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:18:53,173 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:21:19,744 - api.routes - INFO - Received analysis request
+2025-05-17 20:21:19,805 - utils.file_helper - INFO - File saved to uploads/20250517_202119_1f51bed7.webm
+2025-05-17 20:21:19,805 - api.routes - INFO - Transcribing audio from 20250517_202119_1f51bed7.webm
+2025-05-17 20:21:19,805 - services.transcription - INFO - Extracting audio from uploads/20250517_202119_1f51bed7.webm
+2025-05-17 20:21:21,598 - services.transcription - INFO - Audio extracted to /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmpmvblkua9.wav
+2025-05-17 20:21:21,600 - services.transcription - INFO - Audio duration: 118.98 seconds
+2025-05-17 20:21:21,600 - services.transcription - INFO - Audio longer than 60 seconds, using long_running_recognize with GCS
+2025-05-17 20:21:22,552 - services.transcription - INFO - File /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmpmvblkua9.wav uploaded to gs://interview-pro/audio/92a3fcbe-2c63-4f7c-abeb-00059259dc02.wav
+2025-05-17 20:21:22,552 - services.transcription - INFO - Audio uploaded to GCS: gs://interview-pro/audio/92a3fcbe-2c63-4f7c-abeb-00059259dc02.wav
+2025-05-17 20:21:23,160 - services.transcription - INFO - Long running transcription started, waiting for results...
+2025-05-17 20:21:50,351 - services.transcription - INFO - Deleted file from GCS: gs://interview-pro/audio/92a3fcbe-2c63-4f7c-abeb-00059259dc02.wav
+2025-05-17 20:21:50,355 - services.transcription - INFO - Cleaned up temporary audio file: /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmpmvblkua9.wav
+2025-05-17 20:21:50,355 - api.routes - INFO - Analyzing interview content
+2025-05-17 20:21:50,355 - services.content_analysis - WARNING - SSL verification disabled for NIM API requests - this should only be used in development
+2025-05-17 20:21:53,294 - services.content_analysis - WARNING - Response content doesn't appear to be JSON, using fallback
+2025-05-17 20:21:53,295 - api.routes - INFO - Analyzing body language
+2025-05-17 20:21:53,295 - services.body_language_analysis - INFO - Extracting frames from uploads/20250517_202119_1f51bed7.webm
+2025-05-17 20:21:53,311 - services.body_language_analysis - WARNING - Invalid frame count detected: -275163932432834144. Using manual extraction.
+2025-05-17 20:21:53,349 - services.body_language_analysis - INFO - Manually extracted 30 frames from video
+2025-05-17 20:21:57,514 - services.body_language_analysis - INFO - Body language analysis completed successfully
+2025-05-17 20:21:57,515 - api.routes - INFO - Analysis completed with ID: analysis-118
+2025-05-17 20:21:57,516 - utils.file_helper - INFO - Removed file: uploads/20250517_202119_1f51bed7.webm
+2025-05-17 20:24:58,700 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:25:12,849 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:25:48,986 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:26:15,545 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:26:35,365 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:27:02,554 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:27:16,325 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:27:43,908 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:28:12,466 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:30:11,609 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:30:39,541 - api.routes - INFO - Received analysis request
+2025-05-17 20:30:39,579 - utils.file_helper - INFO - File saved to uploads/20250517_203039_a49f6d7a.webm
+2025-05-17 20:30:39,579 - api.routes - INFO - Transcribing audio from 20250517_203039_a49f6d7a.webm
+2025-05-17 20:30:39,580 - services.transcription - INFO - Extracting audio from uploads/20250517_203039_a49f6d7a.webm
+2025-05-17 20:30:41,373 - services.transcription - INFO - Audio extracted to /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmp9a6yrfy3.wav
+2025-05-17 20:30:41,374 - services.transcription - INFO - Audio duration: 36.54 seconds
+2025-05-17 20:30:41,374 - services.transcription - INFO - Audio shorter than 60 seconds, using synchronous recognize
+2025-05-17 20:30:41,375 - services.transcription - INFO - Sending request to Google Cloud Speech-to-Text
+2025-05-17 20:30:52,392 - services.transcription - INFO - Cleaned up temporary audio file: /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmp9a6yrfy3.wav
+2025-05-17 20:30:52,393 - api.routes - INFO - Analyzing interview content
+2025-05-17 20:30:52,393 - services.content_analysis - WARNING - SSL verification disabled for NIM API requests - this should only be used in development
+2025-05-17 20:30:52,596 - services.content_analysis - INFO - API response status: 404
+2025-05-17 20:30:52,596 - services.content_analysis - INFO - Raw API response (first 100 chars): 404 page not found
+
+2025-05-17 20:30:52,596 - services.content_analysis - ERROR - Error using LLM API: 404 Client Error: Not Found for url: https://integrate.api.nvidia.com/v1/completions
+Traceback (most recent call last):
+  File "/Users/ayangoel/Desktop/Projects/interview-prep/backend/services/content_analysis.py", line 93, in _analyze_with_llm
+    response.raise_for_status()
+  File "/Users/ayangoel/opt/anaconda3/envs/tf-arm/lib/python3.9/site-packages/requests/models.py", line 1021, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 404 Client Error: Not Found for url: https://integrate.api.nvidia.com/v1/completions
+2025-05-17 20:30:52,604 - api.routes - INFO - Analyzing body language
+2025-05-17 20:30:52,604 - services.body_language_analysis - INFO - Extracting frames from uploads/20250517_203039_a49f6d7a.webm
+2025-05-17 20:30:52,616 - services.body_language_analysis - WARNING - Invalid frame count detected: -9223372036854775808. Using manual extraction.
+2025-05-17 20:30:52,663 - services.body_language_analysis - INFO - Manually extracted 30 frames from video
+2025-05-17 20:30:55,118 - services.body_language_analysis - INFO - Body language analysis completed successfully
+2025-05-17 20:30:55,120 - api.routes - INFO - Analysis completed with ID: analysis-36
+2025-05-17 20:30:55,120 - utils.file_helper - INFO - Removed file: uploads/20250517_203039_a49f6d7a.webm
+2025-05-17 20:32:04,135 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:33:23,525 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:33:47,768 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:34:36,549 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:36:36,514 - api.routes - INFO - Received analysis request
+2025-05-17 20:36:36,547 - utils.file_helper - INFO - File saved to uploads/20250517_203636_59c08865.webm
+2025-05-17 20:36:36,547 - api.routes - INFO - Transcribing audio from 20250517_203636_59c08865.webm
+2025-05-17 20:36:36,547 - services.transcription - INFO - Extracting audio from uploads/20250517_203636_59c08865.webm
+2025-05-17 20:36:37,800 - services.transcription - INFO - Audio extracted to /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmph_057_xr.wav
+2025-05-17 20:36:37,801 - services.transcription - INFO - Audio duration: 59.52 seconds
+2025-05-17 20:36:37,801 - services.transcription - INFO - Audio shorter than 60 seconds, using synchronous recognize
+2025-05-17 20:36:37,802 - services.transcription - INFO - Sending request to Google Cloud Speech-to-Text
+2025-05-17 20:36:54,482 - services.transcription - INFO - Cleaned up temporary audio file: /var/folders/3f/vg2ywwpj7dg9d66kv10f16kr0000gn/T/tmph_057_xr.wav
+2025-05-17 20:36:54,482 - api.routes - INFO - Analyzing interview content
+2025-05-17 20:36:54,482 - services.content_analysis - WARNING - SSL verification disabled for NIM API requests - this should only be used in development
+2025-05-17 20:36:57,300 - services.content_analysis - INFO - API response status: 200
+2025-05-17 20:36:57,300 - services.content_analysis - INFO - Raw API response (first 100 chars): {"id":"ba616cefb81d43acb56ad459e602492d","object":"chat.completion","created":1747528614,"model":"me
+2025-05-17 20:36:57,300 - services.content_analysis - INFO - Raw API response (last 100 chars): sage":{"prompt_tokens":561,"total_tokens":954,"completion_tokens":393,"prompt_tokens_details":null}}
+2025-05-17 20:36:57,300 - services.content_analysis - INFO - Content received with length: 1640
+2025-05-17 20:36:57,300 - services.content_analysis - WARNING - Content doesn't appear to be JSON: ```
+{
+  "scores": {
+    "content": 20,
+    "struct...
+2025-05-17 20:36:57,300 - services.content_analysis - WARNING - Returning default response after failing to parse API result
+2025-05-17 20:36:57,301 - api.routes - INFO - Analyzing body language
+2025-05-17 20:36:57,301 - services.body_language_analysis - INFO - Extracting frames from uploads/20250517_203636_59c08865.webm
+2025-05-17 20:36:57,310 - services.body_language_analysis - WARNING - Invalid frame count detected: -9223372036854775808. Using manual extraction.
+2025-05-17 20:36:57,347 - services.body_language_analysis - INFO - Manually extracted 30 frames from video
+2025-05-17 20:36:59,814 - services.body_language_analysis - INFO - Body language analysis completed successfully
+2025-05-17 20:36:59,816 - api.routes - INFO - Analysis completed with ID: analysis-59
+2025-05-17 20:36:59,817 - utils.file_helper - INFO - Removed file: uploads/20250517_203636_59c08865.webm
+2025-05-17 20:38:18,149 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:43:58,459 - werkzeug - WARNING -  * Debugger is active!
+2025-05-17 20:44:16,452 - werkzeug - WARNING -  * Debugger is active!

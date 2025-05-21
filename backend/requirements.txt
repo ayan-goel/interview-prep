@@ -6,7 +6,7 @@ requests==2.31.0
 # Replacing Google Cloud Speech with Whisper
 openai-whisper==20240930
 torch==2.2.0  # PyTorch for Whisper
-numpy==1.23.5
+numpy=>1.26.0
 # For Apple Silicon (M1/M2/M3)
 tensorflow-macos==2.12.0
 tensorflow-metal==0.8.0

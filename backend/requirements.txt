@@ -7,9 +7,7 @@ requests==2.31.0
 openai-whisper==20240930
 torch==2.2.0  # PyTorch for Whisper
 numpy>=1.26.0
-# For Apple Silicon (M1/M2/M3)
-tensorflow-macos==2.12.0
-tensorflow-metal==0.8.0
+tensorflow==2.12.0
 tensorflow-hub==0.14.0
 opencv-python==4.8.0.74
 pydub==0.25.1

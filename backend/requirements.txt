@@ -7,8 +7,8 @@ numpy>=1.26.0
 opencv-python-headless==4.9.0.80
 pydub==0.25.1
 whisper==1.1.10
-torch==2.2.0
-tensorflow-cpu
+torch==2.2.0+cpu
+tensorflow-cpu==2.16.1
 tensorflow-hub==0.16.1
 google-generativeai==0.4.1
 werkzeug==3.0.1

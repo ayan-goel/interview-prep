@@ -7,9 +7,8 @@ import { AuthProvider } from "@/lib/auth-context"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "InterviewPrep - Practice and Improve Your Interview Skills",
-  description: "Record yourself answering interview questions and track your progress over time.",
-    generator: 'v0.dev'
+  title: "InterviewPro",
+  description: "Record yourself answering interview questions and track your progress over time."
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

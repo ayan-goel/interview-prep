@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 # Configure uploads
 UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER', 'uploads')
-ALLOWED_EXTENSIONS = {'mp4', 'webm', 'ogg', 'mov', 'avi'}
+ALLOWED_EXTENSIONS = {'mp4', 'webm', 'ogg', 'mov', 'avi', 'wav', 'mp3', 'm4a'}
 
 # Create uploads directory if it doesn't exist
 if not os.path.exists(UPLOAD_FOLDER):
@@ -20,12 +20,13 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def save_upload(file_obj):
+def save_upload(file_obj, prefix=""):
     """
     Save an uploaded file to the upload directory
     
     Args:
         file_obj: File object from request.files
+        prefix: Optional prefix for the filename (e.g., "audio_" for audio files)
         
     Returns:
         Filename of the saved file
@@ -40,8 +41,8 @@ def save_upload(file_obj):
             # Get file extension
             _, ext = os.path.splitext(original_filename)
             
-            # Create new filename
-            filename = f"{timestamp}_{unique_id}{ext}"
+            # Create new filename with optional prefix
+            filename = f"{prefix}{timestamp}_{unique_id}{ext}"
             
             # Save file
             file_path = os.path.join(UPLOAD_FOLDER, filename)

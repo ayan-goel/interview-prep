@@ -24,7 +24,7 @@ export default function RecordPage() {
   const [recordingTime, setRecordingTime] = useState(0)
   const [maxRecordingTime] = useState(120) // 2 minutes max
   const timerRef = useRef<NodeJS.Timeout | null>(null)
-  const startTimeRef = useRef<number>(0) // Store the start timestamp
+  const streamRef = useRef<MediaStream | null>(null)
   const [permissionStatus, setPermissionStatus] = useState<{ video: boolean; audio: boolean }>({
     video: false,
     audio: false,
@@ -96,106 +96,227 @@ export default function RecordPage() {
       if (timerRef.current) {
         clearInterval(timerRef.current)
       }
+      
+      // Clean up media streams
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+      }
     }
   }, [recordingUrl])
 
+  // Start camera automatically when component loads
+  useEffect(() => {
+    if (permissionStatus.video && permissionStatus.audio) {
+      startCamera();
+    }
+  }, [permissionStatus]);
+
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream
+      // Stop any existing stream first
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
       }
-      return stream
+      
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: true,
+        audio: true // Include audio to match mock interview approach
+      });
+      
+      streamRef.current = stream;
+      
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.muted = true; // Mute preview
+        videoRef.current.play().catch(e => console.error("Error playing live preview:", e));
+      }
+      
+      return stream;
     } catch (err) {
-      console.error("Error accessing camera:", err)
-      return null
+      console.error("Error accessing camera/mic:", err);
+      setSubmitError("Failed to access camera or microphone. Please check permissions.");
+      return null;
     }
   }
 
   const startRecording = async () => {
-    // Start countdown
-    setCountdown(3)
-    const countdownInterval = setInterval(() => {
-      setCountdown((prev) => {
-        if (prev === 1) {
-          clearInterval(countdownInterval)
-          initiateRecording()
-          return null
+    // Reset state for a new recording
+    setRecordedChunks([]);
+    setRecordingUrl(null);
+    setRecordingTime(0);
+    setRecordingComplete(false);
+    
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    
+    // Stop any existing stream before getting a new one
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+    }
+    
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true
+      });
+      
+      streamRef.current = stream;
+      
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        videoRef.current.muted = true;
+        videoRef.current.play().catch(e => console.error("Error playing live preview:", e));
+      }
+      
+      // Start countdown
+      setCountdown(3);
+      const countdownInterval = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev === 1) {
+            clearInterval(countdownInterval);
+            beginRecording(stream);
+            return null;
+          }
+          return prev ? prev - 1 : null;
+        });
+      }, 1000);
+      
+    } catch (error) {
+      console.error("Error starting recording:", error);
+      setSubmitError("Failed to start recording. Please check camera and microphone permissions.");
+    }
+  }
+  
+  const beginRecording = (stream: MediaStream) => {
+    try {
+      // Try with the same options as the mock interview page
+      const options = { mimeType: 'video/webm;codecs=vp9,opus' };
+      const mediaRecorder = new MediaRecorder(stream, options);
+      mediaRecorderRef.current = mediaRecorder;
+      
+      const chunks: Blob[] = [];
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) {
+          console.log(`Chunk received: ${e.data.size} bytes`);
+          chunks.push(e.data);
         }
-        return prev ? prev - 1 : null
-      })
-    }, 1000)
-  }
-
-  const initiateRecording = async () => {
-    const stream = await startCamera()
-    if (!stream) return
-
-    setRecordedChunks([])
-    setRecordingTime(0)
-    const mediaRecorder = new MediaRecorder(stream, { mimeType: "video/webm" })
-
-    mediaRecorder.ondataavailable = (event) => {
-      if (event.data.size > 0) {
-        setRecordedChunks((prev) => [...prev, event.data])
-      }
-    }
-
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(recordedChunks, { type: "video/webm" })
-      const url = URL.createObjectURL(blob)
-      setRecordingUrl(url)
-      setRecordingComplete(true)
-
-      // Stop all tracks of the stream
-      const tracks = stream.getTracks()
-      tracks.forEach((track) => track.stop())
-
+      };
+      
+      mediaRecorder.onstop = () => {
+        console.log(`Recording stopped. Total chunks: ${chunks.length}`);
+        
+        // Create blob and URL exactly like the mock interview page
+        const blob = new Blob(chunks, { type: 'video/webm' });
+        console.log(`Blob created, size: ${blob.size} bytes`);
+        
+        if (blob.size === 0) {
+          console.error("Error: Empty video blob created");
+          setSubmitError("Recording failed: No video data captured");
+          return;
+        }
+        
+        const newUrl = URL.createObjectURL(blob);
+        console.log(`Video URL created: ${newUrl}`);
+        
+        setRecordingUrl(newUrl);
+        setRecordedChunks(chunks);
+        setRecordingComplete(true);
+        setIsRecording(false);
+        
+        // Clear timer
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
+        
+        // Release the camera now that recording is done and URL is set
+        if (streamRef.current) {
+          console.log("Stopping tracks after recording");
+          streamRef.current.getTracks().forEach(track => track.stop());
+          streamRef.current = null;
+        }
+        
+        if (videoRef.current) {
+          videoRef.current.srcObject = null;
+        }
+      };
+      
+      // Reset timer state
+      setRecordingTime(0);
       if (timerRef.current) {
-        clearInterval(timerRef.current)
+        clearInterval(timerRef.current);
+        timerRef.current = null;
       }
+      
+      // Start the timer with the same reliable approach
+      const startTime = Date.now();
+      timerRef.current = setInterval(() => {
+        const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+        setRecordingTime(elapsedSeconds);
+        
+        if (elapsedSeconds >= maxRecordingTime) {
+          stopRecording();
+        }
+      }, 500);
+      
+      // Start recording with a more frequent data collection interval
+      mediaRecorder.start(500); // 500ms chunks
+      setIsRecording(true);
+      console.log("Recording started");
+      
+    } catch (error: any) {
+      console.error("Error setting up MediaRecorder:", error);
+      setSubmitError(`Failed to setup recording: ${error.message || "Unknown error"}`);
     }
-
-    mediaRecorderRef.current = mediaRecorder
-    mediaRecorder.start(1000) // Collect data every second
-    setIsRecording(true)
-
-    // Start timer with precise timing
-    startTimeRef.current = Date.now()
-    timerRef.current = setInterval(() => {
-      const currentTime = Date.now()
-      const elapsedSeconds = Math.floor((currentTime - startTimeRef.current) / 1000)
-      
-      setRecordingTime(elapsedSeconds)
-      
-      if (elapsedSeconds >= maxRecordingTime) {
-        stopRecording()
-      }
-    }, 500) // Update more frequently for better precision
   }
-
+  
   const stopRecording = () => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop()
-      setIsRecording(false)
+    console.log("stopRecording called");
+    if (mediaRecorderRef.current && mediaRecorderRef.current.state === 'recording') {
+      console.log("Stopping MediaRecorder");
+      mediaRecorderRef.current.stop(); // This will trigger onstop
+    } else {
+      console.log("MediaRecorder not in recording state:", 
+                 mediaRecorderRef.current ? mediaRecorderRef.current.state : "no recorder");
     }
+    // Timer and stream handled by onstop
   }
-
+  
   const resetRecording = () => {
+    console.log("resetRecording called");
     if (recordingUrl) {
-      URL.revokeObjectURL(recordingUrl)
+      URL.revokeObjectURL(recordingUrl);
     }
-    setRecordingUrl(null)
-    setRecordedChunks([])
-    setRecordingComplete(false)
-    setRecordingTime(0)
+    
+    setRecordingUrl(null);
+    setRecordedChunks([]);
+    setRecordingComplete(false);
+    setRecordingTime(0);
+    
+    // Stop existing stream
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+    }
+    
+    // Restart camera
+    startCamera();
   }
 
   const saveRecording = async () => {
     if (!recordedChunks.length) {
-      console.error("No recording chunks available");
+      console.error("No video chunks recorded");
+      setSubmitError("Recording failed: No video data captured");
       return;
     }
+    
+    console.log(`Recorded ${recordedChunks.length} video chunks, total size: ${
+      recordedChunks.reduce((total, chunk) => total + chunk.size, 0) / 1024
+    } KB`);
     
     try {
       setIsSubmitting(true);
@@ -204,21 +325,20 @@ export default function RecordPage() {
       // Combine recorded chunks into a single blob
       const videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
       
-      // Call the API service
-      console.log("Sending recording to backend for analysis...");
-      const analysisResult = await analyzeInterview(videoBlob, question || "");
-      console.log("Analysis complete:", analysisResult);
+      console.log(`Video blob size: ${(videoBlob.size / 1024).toFixed(2)} KB`);
       
-      // Store results in session storage
-      storeAnalysisResults(analysisResult);
+      // Store the blob and question in session storage for processing on the feedback page
+      const videoUrl = URL.createObjectURL(videoBlob);
       
-      // Navigate to the feedback page
+      sessionStorage.setItem('pendingVideoBlob', videoUrl);
+      sessionStorage.setItem('pendingQuestion', question || "");
+      
+      // Navigate to the feedback page immediately
       router.push('/practice/ai-feedback');
       
     } catch (error) {
-      console.error("Error submitting interview:", error);
-      setSubmitError(error instanceof Error ? error.message : "Failed to analyze interview");
-    } finally {
+      console.error("Error preparing interview:", error);
+      setSubmitError(error instanceof Error ? error.message : "Failed to prepare interview data");
       setIsSubmitting(false);
     }
   }
@@ -304,15 +424,34 @@ export default function RecordPage() {
                   <span className="text-8xl font-bold">{countdown}</span>
                 </div>
               )}
-              <video
-                ref={videoRef}
-                className="h-full w-full transform scale-x-[-1]"
-                autoPlay
-                muted={!isRecording}
-                playsInline
-                src={recordingComplete ? recordingUrl || undefined : undefined}
-              />
-
+              
+              {recordingComplete && recordingUrl ? (
+                <video
+                  src={recordingUrl}
+                  controls
+                  autoPlay
+                  className="h-full w-full"
+                  onError={(e) => {
+                    console.error("Video playback error:", e);
+                    const videoElement = e.target as HTMLVideoElement;
+                    console.log("Video element info:", {
+                      src: videoElement.src,
+                      readyState: videoElement.readyState,
+                      error: videoElement.error ? videoElement.error.code : 'none'
+                    });
+                  }}
+                  onLoadedMetadata={() => console.log("Video metadata loaded successfully")}
+                />
+              ) : (
+                <video
+                  ref={videoRef}
+                  className="h-full w-full transform scale-x-[-1]"
+                  autoPlay
+                  muted
+                  playsInline
+                />
+              )}
+              
               {isRecording && (
                 <div className="absolute top-4 right-4 flex items-center gap-2 bg-black/60 text-white px-3 py-1 rounded-full">
                   <div className="h-3 w-3 rounded-full bg-red-500 animate-pulse"></div>

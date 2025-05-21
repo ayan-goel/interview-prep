@@ -48,7 +48,7 @@ An AI-powered application to help users prepare for interviews with practice que
 4. Set up environment variables in a `.env` file:
    ```
    GOOGLE_APPLICATION_CREDENTIALS_STRING=your_base64_encoded_credentials
-   NIM_API_KEY=your_nvidia_nim_api_key
+   GEMINI_API_KEY=your_gemini_api_key
    PORT=5000
    ```
 
@@ -92,8 +92,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - User authentication with Supabase (sign up, sign in, sign out)
 - Practice interview questions with webcam recording
 - AI analysis of interview responses:
-  - Speech-to-text transcription using Google Cloud Speech API
-  - Content analysis using NVIDIA NIM API
+  - Speech-to-text transcription using OpenAI Whisper
+  - Content analysis using Google Gemini API
   - Body language analysis using TensorFlow:
     - Posture assessment with MoveNet pose estimation
     - Eye contact tracking with face detection
@@ -117,8 +117,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ### Backend
 - Flask (Python)
-- Google Cloud Speech-to-Text API
-- NVIDIA NIM API
+- OpenAI Whisper API (transcription)
+- Google Gemini API (content analysis)
 - TensorFlow & TensorFlow Hub
 - OpenCV for video processing
 

@@ -9,6 +9,12 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+    // For newer Next.js versions using Server Actions
+    serverActions: {
+      bodySizeLimit: '50mb',
+    },
+  },
 }
 
 export default nextConfig

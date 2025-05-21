@@ -2,18 +2,29 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Video, CheckCircle, Award, UserPlus } from "lucide-react"
+import { ArrowRight, Video, CheckCircle, Award, UserPlus, LogOut } from "lucide-react"
 import { useAuth } from "@/lib/auth-context"
+import { useRouter } from "next/navigation"
 
 export default function Home() {
-  const { user } = useAuth()
+  const { user, signOut } = useAuth()
+  const router = useRouter()
+
+  const handleSignOut = async () => {
+    try {
+      await signOut()
+      router.refresh()
+    } catch (error) {
+      console.error("Error signing out:", error)
+    }
+  }
 
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-background to-brand-50">
       <header className="border-b border-brand-100 bg-white/80 backdrop-blur-md sticky top-0 z-10">
         <div className="container flex h-16 items-center px-4 sm:px-6 lg:px-8">
-          <h1 className="text-lg font-bold gradient-text">InterviewPrep</h1>
-          <nav className="ml-auto flex gap-4">
+          <h1 className="text-lg font-bold gradient-text">InterviewPro</h1>
+          <nav className="ml-auto flex gap-4 items-center">
             {user ? (
               <>
                 <Link
@@ -28,6 +39,15 @@ export default function Home() {
                 >
                   Practice
                 </Link>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleSignOut}
+                  className="text-sm font-medium text-brand-700 hover:text-brand-500 transition-colors flex items-center gap-1"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign Out
+                </Button>
               </>
             ) : (
               <>
@@ -51,7 +71,7 @@ export default function Home() {
       <main className="flex-1">
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 bg-hero-pattern opacity-10"></div>
-          <div className="container grid items-center gap-6 px-4 py-16 md:py-24 lg:py-32 sm:px-6 lg:px-8 relative">
+          <div className="container grid items-center gap-6 px-4 py-16 md:py-20 lg:py-28 sm:px-6 lg:px-8 relative">
             <div className="mx-auto max-w-3xl text-center animate-in">
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r from-brand-600 via-accent1 to-brand-600 animate-gradient-x">
                 Ace your next interview with confidence
@@ -97,7 +117,7 @@ export default function Home() {
         </section>
 
         <section id="how-it-works" className="container px-4 py-16 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12 gradient-text">Why InterviewPrep Works</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 gradient-text">Why InterviewPro Works</h2>
           <div className="grid gap-8 md:grid-cols-3">
             <div className="glass-card rounded-2xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <div className="h-12 w-12 rounded-full bg-brand-100 flex items-center justify-center mb-6">
@@ -105,7 +125,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold text-brand-800">Practice with Real Questions</h3>
               <p className="mt-3 text-muted-foreground">
-                Choose from hundreds of real interview questions across different industries and roles.
+                Choose from dozens of real interview questions across different scenarios and styles.
               </p>
             </div>
             <div className="glass-card rounded-2xl p-8 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
@@ -131,21 +151,10 @@ export default function Home() {
       </main>
       <footer className="border-t py-8 bg-white">
         <div className="container px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} InterviewPrep. All rights reserved.
+          <div className="flex justify-center items-center">
+            <p className="text-sm text-muted-foreground text-center w-full">
+              © {new Date().getFullYear()} InterviewPro. All rights reserved.
             </p>
-            <div className="flex gap-6 mt-4 md:mt-0">
-              <Link href="/terms" className="text-sm text-muted-foreground hover:text-brand-600">
-                Terms
-              </Link>
-              <Link href="/privacy" className="text-sm text-muted-foreground hover:text-brand-600">
-                Privacy
-              </Link>
-              <Link href="/contact" className="text-sm text-muted-foreground hover:text-brand-600">
-                Contact
-              </Link>
-            </div>
           </div>
         </div>
       </footer>

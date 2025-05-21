@@ -5,7 +5,7 @@ This backend provides a Flask-based API server for analyzing interview recording
 ## Features
 
 - Video upload and processing
-- Audio transcription using Google Cloud Speech-to-Text
+- Audio transcription using OpenAI's Whisper speech recognition model
 - Natural language processing for content analysis
 - Detailed feedback generation on interview performance
 - RESTful API for integration with frontend applications
@@ -15,8 +15,8 @@ This backend provides a Flask-based API server for analyzing interview recording
 ### Prerequisites
 
 - Python 3.9+
-- ffmpeg (for audio extraction)
-- Google Cloud Speech-to-Text API credentials
+- ffmpeg (for audio extraction and processing)
+- CUDA-compatible GPU (optional, for faster transcription)
 
 ### Installation
 
@@ -33,17 +33,11 @@ This backend provides a Flask-based API server for analyzing interview recording
    pip install -r requirements.txt
    ```
 
-4. **Create environment file**
+4. **Set environment variables (optional)**
+   You can configure the Whisper model size by setting the environment variable:
    ```bash
-   cp .env.example .env
+   export WHISPER_MODEL_SIZE=turbo  # Default is "turbo", other options: tiny, base, small, medium, large
    ```
-   Edit `.env` and add your credentials.
-   
-   For Google Cloud credentials, encode your service account JSON with:
-   ```bash
-   cat path/to/credentials.json | base64
-   ```
-   And add the output to `GOOGLE_APPLICATION_CREDENTIALS_STRING`.
 
 5. **Run the application**
    ```bash
@@ -64,13 +58,29 @@ This backend provides a Flask-based API server for analyzing interview recording
   - **Form data**:
     - `video` - The interview video file (MP4, WebM, etc.)
     - `question` - The interview question text
+    - `audio` - Optional separate audio file for better transcription quality
   - **Response**: JSON with transcription and analysis results
+
+## How It Works
+
+The backend uses a simple and efficient pipeline:
+
+1. **Audio Extraction**: Uses ffmpeg to extract audio from uploaded videos
+2. **Speech Recognition**: Uses OpenAI's Whisper for accurate transcription
+   ```python
+   import whisper
+   model = whisper.load_model("turbo")
+   result = model.transcribe("audio.mp3")
+   transcript = result["text"]
+   ```
+3. **Content Analysis**: Analyzes the transcript for content quality and relevance
+4. **Feedback Generation**: Provides detailed feedback on performance
 
 ## Deployment
 
 For production deployment:
 
-1. Set up environment variables in `.env`
+1. Set up environment variables
 2. Run with Gunicorn:
    ```bash
    gunicorn -w 4 -b 0.0.0.0:5000 app:app
@@ -84,9 +94,9 @@ For production deployment:
 ## Technology Stack
 
 - Flask: Web framework
-- Google Cloud Speech-to-Text: Audio transcription
+- OpenAI Whisper: Speech-to-text transcription
 - TensorFlow/Transformers: Content analysis
-- ffmpeg: Audio extraction
+- ffmpeg: Audio extraction and processing
 - Python data science libraries (NumPy, etc.)
 
 ## Extending the Backend

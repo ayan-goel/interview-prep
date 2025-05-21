@@ -5,18 +5,19 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { ChevronLeft, Home, ListChecks, Sparkles, ThumbsUp, ThumbsDown, Clock, Volume2, Monitor, Eye, Activity } from "lucide-react"
+import { ChevronLeft, Home, ListChecks, Sparkles, ThumbsUp, ThumbsDown, Clock, Volume2, Monitor, Eye, Activity, AlertCircle, TrendingUp } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useAuth } from "@/lib/auth-context"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
-import { getAnalysisResults } from "@/lib/api-service"
+import { analyzeInterview, getAnalysisResults, storeAnalysisResults, savePracticeResults } from "@/lib/api-service"
 
 interface AnalysisResults {
   analysis_id: string;
   results: {
     question: string;
     transcript: string;
+    raw_transcript?: string;
     scores: {
       content: number;
       structure: number;
@@ -27,16 +28,23 @@ interface AnalysisResults {
     strengths: Array<{
       category: string;
       description: string;
+      example?: string;
+      impact?: string;
     }>;
     improvements: Array<{
       category: string;
       description: string;
+      example?: string;
       advice: string;
+      improved_example?: string;
     }>;
     speech_metrics: {
       speaking_rate: number;
       vocabulary_diversity: number;
+      vocabulary_analysis?: string;
       answer_completeness: string;
+      completeness_details?: string;
+      pace_analysis?: string;
       filler_words: {
         total: number;
         details: Record<string, number>;
@@ -62,8 +70,52 @@ interface AnalysisResults {
         };
       };
     };
+    key_takeaways?: Array<{
+      priority: number;
+      recommendation: string;
+      expected_impact: string;
+    }>;
   };
 }
+
+// Spinning loader component
+const LoadingSpinner = ({ progress }: { progress: number }) => (
+  <div className="relative flex items-center justify-center">
+    <div className="absolute text-center">
+      <span className="text-lg font-semibold text-brand-900">{progress}%</span>
+    </div>
+    <svg className="w-24 h-24" viewBox="0 0 100 100">
+      {/* Background circle */}
+      <circle 
+        className="text-brand-100" 
+        strokeWidth="8" 
+        stroke="currentColor" 
+        fill="transparent" 
+        r="42" 
+        cx="50" 
+        cy="50"
+      />
+      {/* Progress circle */}
+      <circle
+        className="text-brand-600" 
+        strokeWidth="8" 
+        strokeDasharray={264}
+        strokeDashoffset={264 - (264 * progress) / 100}
+        strokeLinecap="round" 
+        stroke="currentColor" 
+        fill="transparent" 
+        r="42" 
+        cx="50" 
+        cy="50"
+        style={{ 
+          transition: "stroke-dashoffset 0.8s ease 0s",
+          transformOrigin: "center",
+          transform: "rotate(-90deg)"
+        }}
+      />
+    </svg>
+  </div>
+);
 
 export default function AIFeedbackPage() {
   const router = useRouter()
@@ -73,6 +125,11 @@ export default function AIFeedbackPage() {
   const [analysisProgress, setAnalysisProgress] = useState(0)
   const [analysisResults, setAnalysisResults] = useState<AnalysisResults | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
+  const [isSaved, setIsSaved] = useState(false)
+  const processingStartedRef = useRef(false)
+  const hasAttemptedSaveRef = useRef(false)
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -81,60 +138,212 @@ export default function AIFeedbackPage() {
       await new Promise(resolve => setTimeout(resolve, 500));
       
       if (!user) {
-      router.push("/signin")
-    }
+        router.push("/signin")
+      }
       setIsLoading(false)
     }
     
     checkAuth()
   }, [user, router])
 
-  // Load analysis results
+  // Process pending video or load existing results
   useEffect(() => {
-    if (!isLoading) {
-      try {
-        const results = getAnalysisResults();
-        
-        if (!results) {
-          // No analysis data in storage, redirect back to practice
-          console.log("No analysis data found, redirecting to practice page");
-          setError("Analysis data not found. Please record a new interview.");
-          return;
-        }
-        
-        console.log("Loaded analysis results:", results);
-        setAnalysisResults(results);
-        
-        // Simulate progress for UX purposes
-        // In a production app, you might show progress based on backend updates
-      const interval = setInterval(() => {
-        setAnalysisProgress((prev) => {
-            const newProgress = prev + 5;
-          if (newProgress >= 100) {
-              clearInterval(interval);
+    if (!isLoading && !processingStartedRef.current) {
+      processingStartedRef.current = true;
+      
+      const processVideoOrLoadResults = async () => {
+        try {
+          // Check if there's a pending video to process
+          const pendingVideoURL = typeof window !== 'undefined' ? sessionStorage.getItem('pendingVideoBlob') : null;
+          const pendingAudioURL = typeof window !== 'undefined' ? sessionStorage.getItem('pendingAudioBlob') : null;
+          const pendingQuestion = typeof window !== 'undefined' ? sessionStorage.getItem('pendingQuestion') : null;
+          const useSeparateAudio = typeof window !== 'undefined' ? sessionStorage.getItem('useSeparateAudio') === 'true' : false;
+          
+          if (pendingVideoURL && pendingQuestion) {
+            console.log("Found pending video to analyze");
+            
+            // Start progress animation (slower progress increment)
+            const progressInterval = setInterval(() => {
+              setAnalysisProgress((prev) => {
+                // Cap at 95% while waiting for actual analysis to complete
+                return prev < 95 ? prev + 1 : prev;
+              });
+            }, 300);
+            
+            try {
+              // Handle analysis with either separate audio or extracted from video
+              let analysisResult;
+              
+              if (useSeparateAudio && pendingAudioURL) {
+                console.log("Using separate high-quality audio recording");
+                
+                try {
+                  // Fetch the audio blob
+                  const audioResponse = await fetch(pendingAudioURL);
+                  if (!audioResponse.ok) {
+                    throw new Error(`Failed to fetch audio: ${audioResponse.status}`);
+                  }
+                  const audioBlob = await audioResponse.blob();
+                  console.log(`Audio blob size: ${(audioBlob.size / 1024 / 1024).toFixed(2)}MB`);
+                  
+                  // Fetch the video blob (for visual analysis)
+                  const videoResponse = await fetch(pendingVideoURL);
+                  if (!videoResponse.ok) {
+                    throw new Error(`Failed to fetch video: ${videoResponse.status}`);
+                  }
+                  const videoBlob = await videoResponse.blob();
+                  console.log(`Video blob size: ${(videoBlob.size / 1024 / 1024).toFixed(2)}MB`);
+                  
+                  if (audioBlob.size === 0) {
+                    throw new Error("Audio recording is empty");
+                  }
+                  
+                  if (videoBlob.size === 0) {
+                    throw new Error("Video recording is empty");
+                  }
+                  
+                  // Send to backend for analysis with separate audio file
+                  console.log("Sending recording to backend for analysis with separate audio...");
+                  analysisResult = await analyzeInterview(videoBlob, pendingQuestion, audioBlob);
+                } catch (fetchError: any) {
+                  console.error("Error processing media:", fetchError);
+                  throw new Error(`Failed to process recorded media: ${fetchError.message || 'Unknown error'}`);
+                }
+              } else {
+                // Fetch the video blob for traditional processing
+                const response = await fetch(pendingVideoURL);
+                const videoBlob = await response.blob();
+                
+                // Send to backend for analysis (will extract audio from video)
+                console.log("Sending recording to backend for analysis (extracting audio from video)...");
+                analysisResult = await analyzeInterview(videoBlob, pendingQuestion);
+              }
+              
+              console.log("Analysis complete:", analysisResult);
+              
+              // Store and set results
+              storeAnalysisResults(analysisResult);
+              setAnalysisResults(analysisResult);
+              
+              // Clean up
+              URL.revokeObjectURL(pendingVideoURL);
+              if (pendingAudioURL) URL.revokeObjectURL(pendingAudioURL);
+              sessionStorage.removeItem('pendingVideoBlob');
+              sessionStorage.removeItem('pendingAudioBlob');
+              sessionStorage.removeItem('pendingQuestion');
+              sessionStorage.removeItem('useSeparateAudio');
+              
+              // Complete progress
+              clearInterval(progressInterval);
+              setAnalysisProgress(100);
+              setTimeout(() => setIsAnalyzing(false), 500);
+              
+            } catch (analyzeError) {
+              clearInterval(progressInterval);
+              console.error("Error analyzing interview:", analyzeError);
+              setError(analyzeError instanceof Error ? analyzeError.message : "Failed to analyze interview");
               setIsAnalyzing(false);
-              return 100;
+            }
+          } else {
+            // Try to load existing results
+            const results = getAnalysisResults();
+            
+            if (!results) {
+              console.log("No analysis data found, redirecting to practice page");
+              setError("Analysis data not found. Please record a new interview.");
+              setIsAnalyzing(false);
+              return;
+            }
+            
+            console.log("Loaded existing analysis results");
+            setAnalysisResults(results);
+            
+            // Simulate progress just for UX completeness (slower)
+            const simulatedInterval = setInterval(() => {
+              setAnalysisProgress((prev) => {
+                const newProgress = prev + 1;
+                if (newProgress >= 100) {
+                  clearInterval(simulatedInterval);
+                  setIsAnalyzing(false);
+                  return 100;
+                }
+                return newProgress;
+              });
+            }, 150);
+            
+            return () => clearInterval(simulatedInterval);
           }
-            return newProgress;
-          });
-        }, 200);
-
-        return () => clearInterval(interval);
-      } catch (error) {
-        console.error("Error loading analysis results:", error);
-        setError("Failed to load analysis results. Please try again.");
-        setIsAnalyzing(false);
-      }
+        } catch (error) {
+          console.error("Error in processing:", error);
+          setError("Failed to process interview. Please try again.");
+          setIsAnalyzing(false);
+        }
+      };
+      
+      processVideoOrLoadResults();
     }
   }, [isLoading, router]);
 
-  // Early return if still loading
-  if (isLoading) {
+  // Save results to the database
+  useEffect(() => {
+    const saveResultsToDatabase = async () => {
+      // Only proceed if we have results, a user, and haven't already saved or attempted to save
+      if (analysisResults && user && !isAnalyzing && !isSaved && !hasAttemptedSaveRef.current) {
+        try {
+          hasAttemptedSaveRef.current = true;
+          setIsSaving(true);
+          setSaveError(null);
+          
+          console.log("Saving practice results to database...");
+          await savePracticeResults(user.id, analysisResults);
+          
+          setIsSaved(true);
+          console.log("Practice results saved successfully");
+        } catch (error) {
+          console.error("Error saving practice results:", error);
+          setSaveError(error instanceof Error ? error.message : "Failed to save results");
+        } finally {
+          setIsSaving(false);
+        }
+      }
+    };
+    
+    saveResultsToDatabase();
+  }, [analysisResults, user, isAnalyzing, isSaved]);
+
+  // Show the analyzing state with progress bar
+  if (isAnalyzing) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-brand-50">
-        <div className="text-center">
-          <Sparkles className="h-12 w-12 text-brand-500 animate-pulse mx-auto mb-4" />
-          <p className="text-xl font-medium text-brand-700">Loading...</p>
+      <div className="min-h-screen bg-gradient-to-br from-background to-brand-50">
+        <div className="container max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <Link
+              href="/practice"
+              className="inline-flex items-center text-sm font-medium text-brand-600 hover:text-brand-500 transition-colors"
+            >
+              <ChevronLeft className="mr-1 h-4 w-4" />
+              Back to Questions
+            </Link>
+            <h1 className="mt-4 text-3xl font-bold tracking-tight gradient-text">Processing Your Interview</h1>
+          </div>
+          
+          <Card className="mb-6 bg-white/90 backdrop-blur-md border-brand-200 shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-xl text-brand-800">Analysis in Progress</CardTitle>
+              <CardDescription>
+                Please wait while our AI analyzes your interview performance
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex justify-center mb-8">
+                <LoadingSpinner progress={analysisProgress} />
+              </div>
+              
+              <div className="text-center text-sm text-muted-foreground">
+                We're evaluating your delivery, content, and structure to provide personalized feedback.
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     );
@@ -188,6 +397,54 @@ export default function AIFeedbackPage() {
   const speechMetrics = results?.speech_metrics;
   const bodyLanguage = results?.body_language;
 
+  const getEmptyTranscriptMessage = (transcript: string) => {
+    // Check if transcript contains specific error messages
+    if (transcript.includes("microphone is working") || 
+        transcript.includes("No speech detected")) {
+      return (
+        <div className="p-4 mt-4 border-l-4 border-orange-500 bg-orange-50 text-orange-700">
+          <h4 className="text-lg font-semibold flex items-center">
+            <AlertCircle className="w-5 h-5 mr-2" />
+            Microphone Issue Detected
+          </h4>
+          <p className="mt-2">
+            We couldn't detect any speech in your recording. Please check that:
+          </p>
+          <ul className="list-disc ml-6 mt-2">
+            <li>Your microphone is not muted</li>
+            <li>You're speaking loud enough for the microphone to hear you</li>
+            <li>The correct microphone is selected in your browser</li>
+            <li>You have granted microphone permissions to this site</li>
+          </ul>
+          <p className="mt-2">
+            Try recording again after checking these settings.
+          </p>
+        </div>
+      );
+    }
+    
+    // Generic message for other transcription issues
+    if (transcript.includes("try again with a clearer recording")) {
+      return (
+        <div className="p-4 mt-4 border-l-4 border-amber-500 bg-amber-50 text-amber-700">
+          <h4 className="text-lg font-semibold flex items-center">
+            <AlertCircle className="w-5 h-5 mr-2" />
+            Speech Recognition Issue
+          </h4>
+          <p className="mt-2">
+            Speech was detected, but our system had trouble converting it to text.
+            This could be due to background noise, unclear speech, or technical issues.
+          </p>
+          <p className="mt-2">
+            Try recording again in a quieter environment and speaking clearly.
+          </p>
+        </div>
+      );
+    }
+    
+    return null;
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-brand-50">
       <div className="container max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
@@ -221,11 +478,9 @@ export default function AIFeedbackPage() {
               {isAnalyzing ? (
                 <div className="space-y-4">
                   <div className="flex items-center justify-center">
-                    <Sparkles className="h-12 w-12 text-brand-500 animate-pulse" />
+                    <LoadingSpinner progress={analysisProgress} />
                   </div>
                   <p className="text-center text-muted-foreground">Analyzing your response...</p>
-                  <Progress value={analysisProgress} className="h-2" />
-                  <p className="text-center text-sm text-muted-foreground">{analysisProgress}% complete</p>
                 </div>
               ) : (
               <div className="grid sm:grid-cols-5 gap-4">
@@ -304,7 +559,35 @@ export default function AIFeedbackPage() {
 
             <TabsContent value="feedback" className="animate-in">
               <div className="space-y-6">
-                <Card className="bg-white/90 backdrop-blur-md border-brand-200 shadow-md">
+                {analysisResults?.results?.key_takeaways && (
+                  <Card className="bg-white/90 backdrop-blur-md border-brand-200 shadow-md">
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center">
+                        <Sparkles className="h-5 w-5 text-indigo-500 mr-2" />
+                        <CardTitle className="text-lg text-brand-800">Key Takeaways</CardTitle>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-4">
+                        {analysisResults.results.key_takeaways.sort((a, b) => a.priority - b.priority).map((takeaway, index) => (
+                          <li key={index} className="pb-3 last:pb-0 border-b last:border-b-0 border-gray-100">
+                            <div className="flex gap-2">
+                              <div className="h-6 w-6 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center text-sm font-medium">
+                                {takeaway.priority}
+                              </div>
+                              <div className="flex-1">
+                                <p className="text-brand-800 font-medium">{takeaway.recommendation}</p>
+                                <p className="text-sm text-muted-foreground mt-1">{takeaway.expected_impact}</p>
+                              </div>
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                )}
+
+                <Card className="bg-white/90 backdrop-blur-md border-brand-200 shadow-md mb-6">
                   <CardHeader className="pb-3">
                     <div className="flex items-center">
                       <ThumbsUp className="h-5 w-5 text-green-500 mr-2" />
@@ -312,13 +595,30 @@ export default function AIFeedbackPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <ul className="space-y-2 list-disc pl-5">
-                        {strengths.map((strength, index) => (
-                          <li key={index} className="text-muted-foreground">
-                            <span className="text-brand-800 font-medium">{strength.category}:</span> {strength.description}
-                      </li>
-                        ))}
-                    </ul>
+                    <div className="space-y-6">
+                      {strengths.map((strength, index) => (
+                        <div key={index} className="bg-green-50/50 border border-green-100 rounded-lg p-4">
+                          <h3 className="text-lg font-semibold text-brand-800 mb-2">{strength.category}</h3>
+                          <p className="text-brand-700">{strength.description}</p>
+                          
+                          {strength.example && (
+                            <div className="mt-3 bg-white rounded-md border border-green-100 p-3">
+                              <div className="text-sm text-brand-600 font-medium mb-1">Example:</div>
+                              <div className="text-sm text-brand-700 italic">"{strength.example}"</div>
+                            </div>
+                          )}
+                          
+                          {strength.impact && (
+                            <div className="mt-3 flex items-start">
+                              <div className="bg-green-100 p-1 rounded mr-2 mt-0.5">
+                                <TrendingUp className="h-3 w-3 text-green-700" />
+                              </div>
+                              <div className="text-sm text-brand-600">{strength.impact}</div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   </CardContent>
                 </Card>
 
@@ -330,16 +630,33 @@ export default function AIFeedbackPage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <ul className="space-y-2 list-disc pl-5">
-                        {improvements.map((improvement, index) => (
-                          <li key={index} className="text-muted-foreground">
-                            <span className="text-brand-800 font-medium">{improvement.category}:</span> {improvement.description}
-                            {improvement.advice && (
-                              <div className="text-sm mt-1 text-brand-600">{improvement.advice}</div>
-                            )}
-                      </li>
-                        ))}
-                    </ul>
+                    <div className="space-y-6">
+                      {improvements.map((improvement, index) => (
+                        <div key={index} className="bg-amber-50/50 border border-amber-100 rounded-lg p-4">
+                          <h3 className="text-lg font-semibold text-brand-800 mb-2">{improvement.category}</h3>
+                          <p className="text-brand-700">{improvement.description}</p>
+                          
+                          {improvement.example && (
+                            <div className="mt-3 bg-white rounded-md border border-amber-100 p-3">
+                              <div className="text-sm text-brand-600 font-medium mb-1">From your answer:</div>
+                              <div className="text-sm text-brand-700 italic">"{improvement.example}"</div>
+                            </div>
+                          )}
+                          
+                          <div className="mt-3 bg-white rounded-md border border-brand-100 p-3">
+                            <div className="text-sm text-brand-600 font-medium mb-1">Advice:</div>
+                            <div className="text-sm text-brand-700">{improvement.advice}</div>
+                          </div>
+                          
+                          {improvement.improved_example && (
+                            <div className="mt-3 bg-green-50 rounded-md border border-green-100 p-3">
+                              <div className="text-sm text-green-700 font-medium mb-1">Better approach:</div>
+                              <div className="text-sm text-green-600">{improvement.improved_example}</div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -349,89 +666,104 @@ export default function AIFeedbackPage() {
                 <Card className="bg-white/90 backdrop-blur-md border-brand-200 shadow-md">
                   <CardContent className="pt-6">
                     <div className="space-y-6">
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center">
                           <span className="text-sm font-medium text-brand-700">Speaking Rate</span>
-                          <span className="text-sm text-muted-foreground">
-                            {speechMetrics?.speaking_rate || 0} words per minute
-                          </span>
-                      </div>
+                          <Badge variant="outline" className="text-brand-700">
+                            {speechMetrics?.speaking_rate || 0} words/min
+                          </Badge>
+                        </div>
                         <Progress 
                           value={Math.min(100, (speechMetrics?.speaking_rate || 0) / 2)} 
                           className="h-2" 
                         />
-                        <p className="text-xs text-muted-foreground">
-                          {speechMetrics?.speaking_rate && speechMetrics.speaking_rate > 160 
-                            ? "Your pace is slightly fast. Try to slow down a bit." 
-                            : speechMetrics?.speaking_rate && speechMetrics.speaking_rate < 120
-                            ? "Your pace is a bit slow. Try to be more energetic."
-                            : "Your pace is within an effective range. Ideal: 120-160 wpm."}
+                        <p className="text-xs text-muted-foreground mt-1">
+                          {speechMetrics?.pace_analysis || 
+                            (speechMetrics?.speaking_rate && speechMetrics.speaking_rate > 160 
+                              ? "Your pace is slightly fast. Try to slow down a bit." 
+                              : speechMetrics?.speaking_rate && speechMetrics.speaking_rate < 120
+                              ? "Your pace is slightly slow. Try to speak a bit faster."
+                              : "Your speaking pace is good for interview settings.")}
                         </p>
-                    </div>
-
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                          <span className="text-sm font-medium text-brand-700">Filler Words</span>
-                          <span className="text-sm text-muted-foreground">
-                            {speechMetrics?.filler_words?.total || 0} instances
-                          </span>
                       </div>
-                        <Progress 
-                          value={Math.max(0, 100 - (speechMetrics?.filler_words?.total || 0) * 5)} 
-                          className="h-2" 
-                        />
-                        <p className="text-xs text-muted-foreground">
-                          {speechMetrics?.filler_words?.total && speechMetrics.filler_words.total > 10
-                            ? "High usage of filler words. Try to reduce these for more polished delivery."
-                            : speechMetrics?.filler_words?.total && speechMetrics.filler_words.total > 5
-                            ? "Moderate usage of filler words. Try to reduce these for more polished delivery."
-                            : "Good control of filler words. Your speech sounds polished and confident."}
-                        </p>
-                    </div>
 
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
+                      <div className="border-t border-gray-100 pt-4">
+                        <div className="text-sm font-medium text-brand-700 mb-3">Filler Words</div>
+                        <div className="bg-gray-50 rounded-md p-3">
+                          <div className="flex justify-between mb-2">
+                            <span className="text-sm text-muted-foreground">Total filler words used:</span>
+                            <Badge variant={speechMetrics?.filler_words?.total === 0 ? "success" : 
+                                         speechMetrics?.filler_words?.total && speechMetrics?.filler_words?.total < 5 ? "outline" : "destructive"}>
+                              {speechMetrics?.filler_words?.total || 0}
+                            </Badge>
+                          </div>
+                          {speechMetrics?.filler_words?.total && speechMetrics?.filler_words?.total > 0 ? (
+                            <div className="space-y-2">
+                              <div className="grid grid-cols-2 gap-2 mt-3">
+                                {Object.entries(speechMetrics?.filler_words?.details || {}).map(([word, count]) => (
+                                  <div key={word} className="flex justify-between items-center bg-white p-2 rounded border border-gray-200">
+                                    <span className="text-sm font-mono">"{word}"</span>
+                                    <Badge variant="secondary">{count as number}×</Badge>
+                                  </div>
+                                ))}
+                              </div>
+                              <p className="text-xs text-amber-600 mt-2">
+                                Reducing filler words can make your responses sound more confident and articulate.
+                              </p>
+                            </div>
+                          ) : (
+                            <p className="text-xs text-green-600">
+                              Excellent! You used minimal or no filler words in your response.
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="border-t border-gray-100 pt-4">
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm font-medium text-brand-700">Vocabulary Diversity</span>
+                            <Badge variant="outline" className="text-brand-700">
+                              {speechMetrics?.vocabulary_diversity || 0}/100
+                            </Badge>
+                          </div>
+                          <Progress value={speechMetrics?.vocabulary_diversity || 0} className="h-2" />
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {speechMetrics?.vocabulary_analysis || 
+                              (speechMetrics?.vocabulary_diversity && speechMetrics.vocabulary_diversity > 75
+                                ? "Your vocabulary is rich and diverse, which keeps your answer engaging."
+                                : speechMetrics?.vocabulary_diversity && speechMetrics.vocabulary_diversity < 50
+                                ? "Consider using more varied vocabulary to make your answers more engaging."
+                                : "Your vocabulary diversity is average for professional communication.")}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="border-t border-gray-100 pt-4">
+                        <div className="space-y-2">
                           <span className="text-sm font-medium text-brand-700">Answer Completeness</span>
-                          <span className="text-sm text-muted-foreground">
-                            {speechMetrics?.answer_completeness || "Partial"}
-                          </span>
-                      </div>
-                        <Progress 
-                          value={
-                            speechMetrics?.answer_completeness?.includes("Complete") ? 90 :
-                            speechMetrics?.answer_completeness?.includes("Mostly") ? 75 :
-                            speechMetrics?.answer_completeness?.includes("Partially") ? 50 : 30
-                          } 
-                          className="h-2" 
-                        />
-                        <p className="text-xs text-muted-foreground">
-                          {speechMetrics?.answer_completeness?.includes("Complete")
-                            ? "You provided a thorough answer that addressed all aspects of the question."
-                            : speechMetrics?.answer_completeness?.includes("Mostly")
-                            ? "You addressed most aspects of the question, but could elaborate further in some areas."
-                            : "Your answer was incomplete. Make sure to address all parts of the question."}
-                        </p>
-                    </div>
-
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                          <span className="text-sm font-medium text-brand-700">Vocabulary Diversity</span>
-                          <span className="text-sm text-muted-foreground">
-                            {speechMetrics?.vocabulary_diversity ? 
-                              speechMetrics.vocabulary_diversity > 85 ? "High" :
-                              speechMetrics.vocabulary_diversity > 70 ? "Good" :
-                              speechMetrics.vocabulary_diversity > 50 ? "Average" : "Limited"
-                            : "Average"}
-                          </span>
-                      </div>
-                        <Progress value={speechMetrics?.vocabulary_diversity || 70} className="h-2" />
-                        <p className="text-xs text-muted-foreground">
-                          {speechMetrics?.vocabulary_diversity && speechMetrics.vocabulary_diversity > 85
-                            ? "Excellent use of varied vocabulary that demonstrates strong command of language."
-                            : speechMetrics?.vocabulary_diversity && speechMetrics.vocabulary_diversity > 70
-                            ? "Good vocabulary diversity. Your language is varied and appropriate."
-                            : "Consider using more varied vocabulary to demonstrate language proficiency."}
-                        </p>
+                          <div className="flex items-center mt-2">
+                            <Badge 
+                              className={`${
+                                speechMetrics?.answer_completeness === "Complete" 
+                                  ? "bg-green-100 text-green-800" 
+                                  : speechMetrics?.answer_completeness === "Mostly complete" 
+                                  ? "bg-amber-100 text-amber-800"
+                                  : "bg-red-100 text-red-800"
+                              }`}
+                            >
+                              {speechMetrics?.answer_completeness || "Not analyzed"}
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-2">
+                            {speechMetrics?.completeness_details || 
+                              (speechMetrics?.answer_completeness === "Complete"
+                                ? "Your answer thoroughly addressed all aspects of the question."
+                                : speechMetrics?.answer_completeness === "Mostly complete"
+                                ? "Your answer covered most aspects of the question, but might be missing some details."
+                                : "Your answer missed important aspects of the question.")}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
@@ -440,110 +772,120 @@ export default function AIFeedbackPage() {
 
               <TabsContent value="body-language" className="animate-in">
                 <Card className="bg-white/90 backdrop-blur-md border-brand-200 shadow-md">
-                  <CardContent className="pt-6">
+                  <CardHeader>
+                    <CardTitle className="text-xl text-brand-800">Body Language Analysis</CardTitle>
+                    <CardDescription>Visual analysis of your posture, eye contact and movement</CardDescription>
+                  </CardHeader>
+                  <CardContent>
                     <div className="space-y-6">
-                    <div className="space-y-2">
-                        <div className="flex items-center justify-between">
+                      {/* Posture section */}
+                      <div className="bg-white rounded-lg p-4 border border-brand-100 shadow-sm">
+                        <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center">
-                            <Monitor className="h-4 w-4 text-brand-600 mr-2" />
-                            <span className="text-sm font-medium text-brand-700">Posture</span>
+                            <Monitor className="h-5 w-5 text-brand-600 mr-2" />
+                            <h3 className="text-base font-medium text-brand-800">Posture</h3>
                           </div>
-                          <span className="text-sm text-muted-foreground">
+                          <span className="text-base font-semibold text-brand-700">
                             {bodyLanguage?.posture?.score || 0}/100
                           </span>
-                      </div>
-                        <Progress value={bodyLanguage?.posture?.score || 0} className="h-2" />
-                        <p className="text-xs text-muted-foreground">
+                        </div>
+                        <Progress value={bodyLanguage?.posture?.score || 0} className="h-2.5 mb-3" />
+                        <p className="text-sm text-muted-foreground">
                           {bodyLanguage?.posture?.evaluation || "Posture analysis unavailable"}
                         </p>
-                    </div>
-
-                    <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <Eye className="h-4 w-4 text-brand-600 mr-2" />
-                            <span className="text-sm font-medium text-brand-700">Eye Contact</span>
                       </div>
-                          <span className="text-sm text-muted-foreground">
+
+                      {/* Eye Contact section */}
+                      <div className="bg-white rounded-lg p-4 border border-brand-100 shadow-sm">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center">
+                            <Eye className="h-5 w-5 text-brand-600 mr-2" />
+                            <h3 className="text-base font-medium text-brand-800">Eye Contact</h3>
+                          </div>
+                          <span className="text-base font-semibold text-brand-700">
                             {bodyLanguage?.eye_contact?.score || 0}/100
                           </span>
-                    </div>
-                        <Progress value={bodyLanguage?.eye_contact?.score || 0} className="h-2" />
-                        <p className="text-xs text-muted-foreground">
-                          {bodyLanguage?.eye_contact?.evaluation || "Eye contact analysis unavailable"}
+                        </div>
+                        <Progress value={bodyLanguage?.eye_contact?.score || 0} className="h-2.5 mb-3" />
+                        <p className="text-sm text-muted-foreground">
+                          {bodyLanguage?.eye_contact?.score === 0 
+                            ? "Eye contact detection requires clear facial visibility. Try recording with better lighting and facing the camera directly."
+                            : bodyLanguage?.eye_contact?.evaluation || "Eye contact analysis unavailable"}
                         </p>
-                    </div>
+                      </div>
 
-                    <div className="space-y-2">
-                        <div className="flex items-center justify-between">
+                      {/* Movement section */}
+                      <div className="bg-white rounded-lg p-4 border border-brand-100 shadow-sm">
+                        <div className="flex items-center justify-between mb-3">
                           <div className="flex items-center">
-                            <Activity className="h-4 w-4 text-brand-600 mr-2" />
-                            <span className="text-sm font-medium text-brand-700">Movement Control</span>
+                            <Activity className="h-5 w-5 text-brand-600 mr-2" />
+                            <h3 className="text-base font-medium text-brand-800">Movement Control</h3>
                           </div>
-                          <span className="text-sm text-muted-foreground">
+                          <span className="text-base font-semibold text-brand-700">
                             {bodyLanguage?.movement?.score || 0}/100
                           </span>
                         </div>
-                        <Progress value={bodyLanguage?.movement?.score || 0} className="h-2" />
-                        <p className="text-xs text-muted-foreground">
-                          {bodyLanguage?.movement?.evaluation || "Movement analysis unavailable"}
-                        </p>
-                        </div>
-
-                      <div className="mt-4 pt-4 border-t border-brand-100">
-                        <h4 className="text-sm font-medium text-brand-800 mb-2">Overall Body Language Assessment</h4>
+                        <Progress value={bodyLanguage?.movement?.score || 0} className="h-2.5 mb-3" />
                         <p className="text-sm text-muted-foreground">
-                          {bodyLanguage?.posture?.score && bodyLanguage?.eye_contact?.score && bodyLanguage?.movement?.score ? (
-                            `Your body language ${
-                              (bodyLanguage.posture.score + bodyLanguage.eye_contact.score + bodyLanguage.movement.score) / 3 > 80 ? 
-                              "projects confidence and engagement" : 
-                              (bodyLanguage.posture.score + bodyLanguage.eye_contact.score + bodyLanguage.movement.score) / 3 > 60 ?
-                              "is generally positive but could be improved" :
-                              "needs significant improvement"
-                            }. Focus on ${
-                              Math.min(bodyLanguage.posture.score, bodyLanguage.eye_contact.score, bodyLanguage.movement.score) === bodyLanguage.posture.score ?
-                              "improving your posture" :
-                              Math.min(bodyLanguage.posture.score, bodyLanguage.eye_contact.score, bodyLanguage.movement.score) === bodyLanguage.eye_contact.score ?
-                              "maintaining better eye contact" :
-                              "controlling your movements"
-                            } to create a more professional impression.`
-                          ) : (
-                            "Body language analysis requires video recording. Make sure your camera is enabled during the interview."
-                          )}
+                          {bodyLanguage?.movement?.evaluation || "Movement analysis unavailable"}
                         </p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
-            </TabsContent>
+              </TabsContent>
 
-            <TabsContent value="transcript" className="animate-in">
-              <Card className="bg-white/90 backdrop-blur-md border-brand-200 shadow-md">
+              <TabsContent value="transcript" className="animate-in">
+                <Card className="bg-white/90 backdrop-blur-md border-brand-200 shadow-md">
                   <CardContent className="pt-6">
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <p className="text-sm text-muted-foreground">Auto-generated transcript of your answer:</p>
-                        <Button variant="ghost" size="sm" className="h-8 gap-1">
-                          <Volume2 className="h-4 w-4" />
-                          <span className="text-xs">Read Aloud</span>
-                    </Button>
-                  </div>
-                      <div className="text-brand-800 prose prose-blue max-w-none space-y-4">
-                        {results?.transcript ? (
-                          <p>"{results.transcript}"</p>
-                        ) : (
-                          <p className="text-muted-foreground">Transcript unavailable</p>
-                        )}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
-          </>
+                    {analysisResults && getEmptyTranscriptMessage(analysisResults.results.transcript)}
+                    
+                    {analysisResults?.results?.raw_transcript && analysisResults.results.raw_transcript !== analysisResults.results.transcript && (
+                      <div className="mb-6">
+                        <div className="flex justify-between items-center mb-2">
+                          <h3 className="text-sm font-semibold text-brand-700 ">Enhanced Transcript</h3>
+                          <Badge variant="secondary" className="text-xs">AI-Enhanced</Badge>
+                        </div>
+                        <div className="whitespace-pre-wrap rounded-md border p-4 bg-white">
+                          {analysisResults.results.transcript || 'No transcript available'}
+                        </div>
+                        
+                        <div className="mt-6 mb-2">
+                          <h3 className="text-sm font-semibold text-brand-700">Raw Transcript</h3>
+                        </div>
+                        <div className="whitespace-pre-wrap rounded-md border p-4 bg-gray-50 text-gray-700">
+                          {analysisResults.results.raw_transcript || 'No raw transcript available'}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {(!analysisResults?.results?.raw_transcript || analysisResults.results.raw_transcript === analysisResults.results.transcript) && (
+                      <div className="whitespace-pre-wrap">
+                        {analysisResults?.results?.transcript || 'No transcript available'}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+            </>
         )}
 
         <div className="flex flex-wrap gap-4 justify-center">
+          {saveError && (
+            <div className="w-full text-center mb-2">
+              <Badge variant="destructive" className="mb-2">Database Error</Badge>
+              <p className="text-sm text-red-600">Failed to save results: {saveError}</p>
+            </div>
+          )}
+          
+          {isSaved && (
+            <div className="w-full text-center mb-2">
+              <Badge variant="success" className="mb-2 bg-green-100 text-green-800 hover:bg-green-200">Saved to Your History</Badge>
+              <p className="text-sm text-green-600">Your practice results have been saved and will appear in your dashboard.</p>
+            </div>
+          )}
+          
           <Button
             size="lg"
             variant="outline"
